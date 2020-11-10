@@ -19,6 +19,8 @@ Robocorp CLI or `rcc` tool brings a lot of power and ease to the table when maki
 ## Documentation
 
 * Visit [https://robocorp.com/docs](https://robocorp.com/docs) to view the full documentation on all Robocorp products.
+* Visit [https://robocorp.com](https://robocorp.com) to see what Robocorp is about.
+
 
 ## Community
 
