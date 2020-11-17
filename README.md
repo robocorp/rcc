@@ -32,6 +32,7 @@ For detailed instructions, visit [Robocorp RCC documentation](https://robocorp.c
 | Windows | https://downloads.code.robocorp.com/rcc/latest/windows64/rcc.exe |
 | macOS   | https://downloads.code.robocorp.com/rcc/latest/macos64/rcc       |
 | Linux   | https://downloads.code.robocorp.com/rcc/latest/linux64/rcc       |
+
 *[EULA for pre-built distribution.](https://cdn.robocorp.com/legal/Robocorp-EULA-v1.0.pdf)*
 
 ## Documentation
