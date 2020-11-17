@@ -14,14 +14,14 @@ Together with [robot.yaml](https://robocorp.com/docs/setup/robot-yaml-format) co
 :arrow_double_down: Install rcc 
 > [Download RCC](#direct-downloads-for-signed-executables-provided-by-robocorp)
 
-:hatching_chick: Create new robot from template
-> `rcc robot initialize -t standard`
+:octocat: Pull robot from GitHub:
+> `rcc pull github.com/robocorp/example-google-image-search`
 
 :running: Run robot
 > `rcc run`
 
-:octocat: Pull robot from GitHub:
-> `rcc pull github.com/robocorp/example-google-image-search`
+:hatching_chick: Create your own robot from template
+> `rcc robot initialize -t standard`
 
 For detailed instructions, visit [Robocorp RCC documentation](https://robocorp.com/docs/product-manuals/robocorp-cli) to get started. To build `rcc` from this repository see the [Setup Guide](/docs/BUILD.md)
 
