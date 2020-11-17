@@ -95,9 +95,7 @@ func (it *ArtifactPublisher) NewClient(targetUrl string) (cloud.Client, *url.URL
 }
 
 func (it *ArtifactPublisher) Publish(fullpath, relativepath string, details os.FileInfo) {
-	if common.Debug {
-		common.Log("- publishing %s", relativepath)
-	}
+	common.Debug("- publishing %s", relativepath)
 	size, ok := pathlib.Size(fullpath)
 	if !ok {
 		it.ErrorCount += 1
@@ -106,7 +104,7 @@ func (it *ArtifactPublisher) Publish(fullpath, relativepath string, details os.F
 	client, url, err := it.NewClient(it.ArtifactPostURL)
 	if err != nil {
 		it.ErrorCount += 1
-		fmt.Println("ERR:", err)
+		common.Error("Assistant", err)
 		return //err
 	}
 	basename := filepath.Base(fullpath)
@@ -118,41 +116,41 @@ func (it *ArtifactPublisher) Publish(fullpath, relativepath string, details os.F
 	body, err := data.AsJson()
 	if err != nil {
 		it.ErrorCount += 1
-		fmt.Println("ERR:", err)
+		common.Error("Assistant", err)
 		return //err
 	}
 	request.Body = strings.NewReader(body)
 	response := client.Post(request)
 	if response.Err != nil {
 		it.ErrorCount += 1
-		fmt.Println("ERR:", response.Err)
+		common.Error("Assistant", response.Err)
 		return //err
 	}
 	if response.Status < 200 || 299 < response.Status {
-		fmt.Println("ERR: status code", response.Status)
+		common.Log("ERR: status code %v", response.Status)
 		return //err
 	}
 	var outcome awsWrapper
 	err = json.Unmarshal(response.Body, &outcome)
 	if err != nil {
 		it.ErrorCount += 1
-		fmt.Println("ERR:", err)
+		common.Error("Assistant", err)
 		return //err
 	}
 	if outcome.Response == nil {
 		it.ErrorCount += 1
-		fmt.Println("ERR: did not get correct response in reply from cloud.")
+		common.Log("ERR: did not get correct response in reply from cloud.")
 		return //err
 	}
 	if outcome.Response.PostInfo == nil {
 		it.ErrorCount += 1
-		fmt.Println("ERR: did not get correct response postinfo in reply from cloud.")
+		common.Log("ERR: did not get correct response postinfo in reply from cloud.")
 		return //err
 	}
 	err = multipartUpload(outcome.Response.PostInfo.Url, outcome.Response.PostInfo.Fields, basename, fullpath)
 	if err != nil {
 		it.ErrorCount += 1
-		fmt.Println("LAST ERR:", err)
+		common.Error("Assistant/Last", err)
 	}
 }
 
@@ -245,15 +243,11 @@ func BackgroundAssistantHeartbeat(cancel chan bool, client cloud.Client, account
 	for {
 		select {
 		case _ = <-cancel:
-			if common.Trace {
-				common.Log("Stopping assistant heartbeat.")
-			}
+			common.Trace("Stopping assistant heartbeat.")
 			return
 		case <-time.After(60 * time.Second):
 			counter += 1
-			if common.Trace {
-				common.Log("Sending assistant heartbeat #%d.", counter)
-			}
+			common.Trace("Sending assistant heartbeat #%d.", counter)
 			go BeatAssistantRun(client, account, workspaceId, assistantId, runId, counter)
 		}
 	}

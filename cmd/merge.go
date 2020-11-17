@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -11,9 +12,9 @@ func dumpYaml(title string, environment *conda.Environment) {
 	common.Log("%s", title)
 	content, err := environment.AsYaml()
 	if err != nil {
-		common.Exit(3, err.Error())
+		pretty.Exit(3, err.Error())
 	}
-	common.Log("%s", content)
+	common.Out("%s", content)
 }
 
 var mergeCmd = &cobra.Command{
@@ -28,20 +29,20 @@ var mergeCmd = &cobra.Command{
 			left = right
 			right, err = conda.ReadCondaYaml(filename)
 			if err != nil {
-				common.Exit(1, err.Error())
+				pretty.Exit(1, err.Error())
 			}
 			if left == nil {
 				continue
 			}
 			right, err = left.Merge(right)
 			if err != nil {
-				common.Exit(2, err.Error())
+				pretty.Exit(2, err.Error())
 			}
 		}
 		dumpYaml("Full merge:", right)
 		dumpYaml("Pure conda:", right.AsPureConda())
 		common.Log("Requirements text:")
-		common.Log("%s", right.AsRequirementsText())
+		common.Out("%s", right.AsRequirementsText())
 	},
 }
 

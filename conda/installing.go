@@ -10,7 +10,7 @@ func MustConda() bool {
 }
 
 func DoDownload() bool {
-	if common.Debug {
+	if common.DebugFlag {
 		defer common.Stopwatch("Download done in").Report()
 	}
 
@@ -18,7 +18,7 @@ func DoDownload() bool {
 
 	err := DownloadConda()
 	if err != nil {
-		common.Log("FAILURE: %s", err)
+		common.Error("Download", err)
 		return false
 	} else {
 		common.Log("Verify checksum from https://docs.conda.io/en/latest/miniconda.html")
@@ -27,7 +27,7 @@ func DoDownload() bool {
 }
 
 func DoInstall() bool {
-	if common.Debug {
+	if common.DebugFlag {
 		defer common.Stopwatch("Installation done in").Report()
 	}
 
@@ -38,12 +38,10 @@ func DoInstall() bool {
 	common.Log("Installing Miniconda, this may take awhile ...")
 
 	install := InstallCommand()
-	if common.Debug {
-		common.Log("Running: %v", install)
-	}
+	common.Debug("Running: %v", install)
 	_, err := shell.New(nil, ".", install...).Transparent()
 	if err != nil {
-		common.Log("Error: %v", err)
+		common.Error("Install", err)
 		return false
 	}
 	return true

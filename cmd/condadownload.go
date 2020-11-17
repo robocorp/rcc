@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -14,8 +14,8 @@ var condaDownloadCmd = &cobra.Command{
 	Long:    `Downloads the miniconda3 installer for this platform.`,
 	Args:    cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		if !conda.DoDownload() {
-			common.Exit(1, "Download failed.")
+		if !(conda.DoDownload() || conda.DoDownload() || conda.DoDownload()) {
+			pretty.Exit(1, "Download failed.")
 		}
 	},
 }

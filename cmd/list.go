@@ -7,6 +7,7 @@ import (
 
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -19,7 +20,7 @@ in human readable form.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		templates := conda.TemplateList()
 		if len(templates) == 0 {
-			common.Exit(1, "No environments available.")
+			pretty.Exit(1, "No environments available.")
 		}
 		lines := make([]string, 0, len(templates))
 		common.Log("%-25s  %-25s  %s", "Last used", "Last cloned", "Environment (TLSH)")

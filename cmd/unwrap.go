@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/operations"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -14,14 +15,14 @@ var unwrapCmd = &cobra.Command{
 robot filename, and target directory. And using --force option, files will
 be overwritten.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Unwrap lasted").Report()
 		}
 		err := operations.Unzip(directory, zipfile, forceFlag, false)
 		if err != nil {
-			common.Exit(1, "Error: %v", err)
+			pretty.Exit(1, "Error: %v", err)
 		}
-		common.Log("OK.")
+		pretty.Ok()
 	},
 }
 

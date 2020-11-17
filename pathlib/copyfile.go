@@ -37,7 +37,7 @@ func CopyFile(source, target string, overwrite bool) error {
 
 	_, err = io.Copy(writable, readable)
 	if err != nil {
-		common.Log("%v", err.Error())
+		common.Error("copy-file", err)
 	}
 
 	return err

@@ -13,7 +13,7 @@ var versionCmd = &cobra.Command{
 	Long:    `Show current version number of installed rcc.`,
 	Args:    cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		common.Log("%s", common.Version)
+		common.Out("%s", common.Version)
 	},
 }
 

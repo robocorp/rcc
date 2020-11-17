@@ -166,7 +166,7 @@ func SummonRobotZipfile(client cloud.Client, account *account, workspaceId, robo
 		return found, nil
 	}
 	zipfile := filepath.Join(os.TempDir(), fmt.Sprintf("summon%x.zip", time.Now().Unix()))
-	err := DownloadCommand(client, account, workspaceId, robotId, zipfile, common.Debug)
+	err := DownloadCommand(client, account, workspaceId, robotId, zipfile, common.DebugFlag)
 	if err != nil {
 		return "", err
 	}

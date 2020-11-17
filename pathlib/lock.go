@@ -17,15 +17,10 @@ type Locked struct {
 type fake bool
 
 func (it fake) Release() error {
-	if common.Trace {
-		common.Log("LOCKER: lockless mode release.")
-	}
-	return nil
+	return common.Trace("LOCKER: lockless mode release.")
 }
 
 func Fake() Releaser {
-	if common.Trace {
-		common.Log("LOCKER: lockless mode.")
-	}
+	common.Trace("LOCKER: lockless mode.")
 	return fake(true)
 }

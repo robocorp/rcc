@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/operations"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -14,14 +15,14 @@ var wrapCmd = &cobra.Command{
 filename, source directory and optional ignore files. When wrap is run again
 existing robot file will silently be overwritten..`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Wrap lasted").Report()
 		}
 		err := operations.Zip(directory, zipfile, ignores)
 		if err != nil {
-			common.Exit(1, "Error: %v", err)
+			pretty.Exit(1, "Error: %v", err)
 		}
-		common.Log("OK.")
+		pretty.Ok()
 	},
 }
 

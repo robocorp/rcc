@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/robocorp/rcc/blobs"
 	"github.com/robocorp/rcc/common"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -14,9 +15,9 @@ var licenseCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		content, err := blobs.Asset("assets/man/LICENSE.txt")
 		if err != nil {
-			common.Exit(1, "Cannot show LICENSE, reason: %v", err)
+			pretty.Exit(1, "Cannot show LICENSE, reason: %v", err)
 		}
-		common.Log("%s", content)
+		common.Out("%s", content)
 	},
 }
 

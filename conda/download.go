@@ -2,7 +2,6 @@ package conda
 
 import (
 	"crypto/sha256"
-	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -28,19 +27,12 @@ func DownloadConda() error {
 	digest := sha256.New()
 	many := io.MultiWriter(out, digest)
 
-	if common.Debug {
-		common.Log("Downloading %s <%s> -> %s", url, response.Status, filename)
-	}
+	common.Debug("Downloading %s <%s> -> %s", url, response.Status, filename)
 
 	_, err = io.Copy(many, response.Body)
 	if err != nil {
 		return err
 	}
 
-	if common.Debug {
-		sum := fmt.Sprintf("%02x", digest.Sum(nil))
-		common.Log("SHA256 sum: %s", sum)
-	}
-
-	return nil
+	return common.Debug("SHA256 sum: %02x", digest.Sum(nil))
 }

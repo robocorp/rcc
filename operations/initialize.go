@@ -15,9 +15,7 @@ import (
 )
 
 func unpack(content []byte, directory string) error {
-	if common.Debug {
-		common.Log("Initializing:")
-	}
+	common.Debug("Initializing:")
 	size := int64(len(content))
 	byter := bytes.NewReader(content)
 	reader, err := zip.NewReader(byter, size)
@@ -36,9 +34,7 @@ func unpack(content []byte, directory string) error {
 		}
 		success = todo.Execute() && success
 	}
-	if common.Debug {
-		common.Log("Done.")
-	}
+	common.Debug("Done.")
 	if !success {
 		return errors.New(fmt.Sprintf("Problems while initializing robot. Use --debug to see details."))
 	}

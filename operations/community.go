@@ -66,18 +66,16 @@ func DownloadCommunityRobot(url, filename string) error {
 	digest := sha256.New()
 	many := io.MultiWriter(out, digest)
 
-	if common.Debug {
-		common.Log("Downloading %s <%s> -> %s", url, response.Status, filename)
-	}
+	common.Debug("Downloading %s <%s> -> %s", url, response.Status, filename)
 
 	_, err = io.Copy(many, response.Body)
 	if err != nil {
 		return err
 	}
 
-	if common.Debug {
+	if common.DebugFlag {
 		sum := fmt.Sprintf("%02x", digest.Sum(nil))
-		common.Log("SHA256 sum: %s", sum)
+		common.Debug("SHA256 sum: %s", sum)
 	}
 
 	return nil

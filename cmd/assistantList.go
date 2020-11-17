@@ -6,6 +6,7 @@ import (
 	"github.com/robocorp/rcc/cloud"
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/operations"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -16,26 +17,26 @@ var assistantListCmd = &cobra.Command{
 	Short:   "Robot Assistant listing",
 	Long:    "Robot Assistant listing.",
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Robot Assistant list query lasted").Report()
 		}
 		account := operations.AccountByName(AccountName())
 		if account == nil {
-			common.Exit(1, "Could not find account by name: %v", AccountName())
+			pretty.Exit(1, "Could not find account by name: %v", AccountName())
 		}
 		client, err := cloud.NewClient(account.Endpoint)
 		if err != nil {
-			common.Exit(2, "Could not create client for endpoint: %v, reason: %v", account.Endpoint, err)
+			pretty.Exit(2, "Could not create client for endpoint: %v, reason: %v", account.Endpoint, err)
 		}
 		assistants, err := operations.ListAssistantsCommand(client, account, workspaceId)
 		if err != nil {
-			common.Exit(3, "Could not get list of assistants for workspace %v, reason: %v", workspaceId, err)
+			pretty.Exit(3, "Could not get list of assistants for workspace %v, reason: %v", workspaceId, err)
 		}
 		nice, err := json.MarshalIndent(assistants, "", "  ")
 		if err != nil {
-			common.Exit(4, "Could not format reply: %v", err)
+			pretty.Exit(4, "Could not format reply: %v", err)
 		}
-		common.Log("%s", nice)
+		common.Out("%s", nice)
 	},
 }
 

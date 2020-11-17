@@ -40,12 +40,10 @@ func (it *WriteTarget) Execute() bool {
 		return false
 	}
 	defer target.Close()
-	if common.Debug {
-		common.Log("- %v", it.Target)
-	}
+	common.Debug("- %v", it.Target)
 	_, err = io.Copy(target, source)
-	if common.Debug && err != nil {
-		common.Log("  - failure: %v", err)
+	if err != nil {
+		common.Debug("  - failure: %v", err)
 	}
 	os.Chtimes(it.Target, it.Source.Modified, it.Source.Modified)
 	return err == nil
@@ -83,9 +81,7 @@ func loopExecutor(work CommandChannel, done CompletedChannel) {
 
 func (it *unzipper) Explode(workers int, directory string) error {
 	// This is PoC code, for parallel extraction
-	if common.Debug {
-		common.Log("Exploding:")
-	}
+	common.Debug("Exploding:")
 
 	todo := make(CommandChannel)
 	done := make(CompletedChannel)
@@ -110,17 +106,13 @@ func (it *unzipper) Explode(workers int, directory string) error {
 		<-done
 	}
 
-	if common.Debug {
-		common.Log("Done.")
-	}
+	common.Debug("Done.")
 
 	return nil
 }
 
 func (it *unzipper) Extract(directory string) error {
-	if common.Debug {
-		common.Log("Extracting:")
-	}
+	common.Debug("Extracting:")
 	success := true
 	for _, entry := range it.reader.File {
 		if entry.FileInfo().IsDir() {
@@ -133,9 +125,7 @@ func (it *unzipper) Extract(directory string) error {
 		}
 		success = todo.Execute() && success
 	}
-	if common.Debug {
-		common.Log("Done.")
-	}
+	common.Debug("Done.")
 	if !success {
 		return errors.New(fmt.Sprintf("Problems while unwrapping robot. Use --debug to see details."))
 	}
@@ -163,15 +153,11 @@ func newZipper(filename string) (*zipper, error) {
 
 func (it *zipper) Note(err error) {
 	it.failures = append(it.failures, err)
-	if common.Debug {
-		common.Log("Warning! %v", err)
-	}
+	common.Debug("Warning! %v", err)
 }
 
 func (it *zipper) Add(fullpath, relativepath string, details os.FileInfo) {
-	if common.Debug {
-		common.Log("- %v size %v", relativepath, details.Size())
-	}
+	common.Debug("- %v size %v", relativepath, details.Size())
 	source, err := os.Open(fullpath)
 	if err != nil {
 		it.Note(err)
@@ -246,9 +232,7 @@ func Unzip(directory, zipfile string, force, temporary bool) error {
 }
 
 func Zip(directory, zipfile string, ignores []string) error {
-	if common.Debug {
-		common.Log("Wrapping %v into %v ...", directory, zipfile)
-	}
+	common.Debug("Wrapping %v into %v ...", directory, zipfile)
 	config, err := robot.LoadYamlConfiguration(robot.DetectConfigurationName(directory))
 	if err != nil {
 		return err

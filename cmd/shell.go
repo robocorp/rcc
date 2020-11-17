@@ -4,6 +4,7 @@ import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
 	"github.com/robocorp/rcc/operations"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -17,16 +18,16 @@ It can be used to get inside a managed environment and execute your own
 command within that environment.`,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("rcc shell lasted").Report()
 		}
 		ok := conda.MustConda()
 		if !ok {
-			common.Exit(2, "Could not get miniconda installed.")
+			pretty.Exit(2, "Could not get miniconda installed.")
 		}
 		simple, config, todo, label := operations.LoadTaskWithEnvironment(robotFile, runTask, forceFlag)
 		if simple {
-			common.Exit(1, "Cannot do shell for simple execution model.")
+			pretty.Exit(1, "Cannot do shell for simple execution model.")
 		}
 		operations.ExecuteTask(captureRunFlags(), conda.Shell, config, todo, label, true, nil)
 	},

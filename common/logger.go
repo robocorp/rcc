@@ -2,35 +2,39 @@ package common
 
 import (
 	"fmt"
-	"log"
 	"os"
 )
 
-var (
-	logTool logging
-)
-
-type logging interface {
-	Println(...interface{})
-}
-
-type flatLog bool
-
-func (it flatLog) Println(values ...interface{}) {
-	fmt.Println(values...)
-}
-
-func init() {
-	logTool = flatLog(true)
-}
-
-func TrueLog() {
-	logTool = log.New(os.Stdout, "| ", log.LstdFlags)
+func Error(context string, err error) {
+	if err != nil {
+		Log("Error [%s]: %v", context, err)
+	}
 }
 
 func Log(format string, details ...interface{}) {
-	if Silent {
-		return
+	if !Silent {
+		fmt.Fprintln(os.Stderr, fmt.Sprintf(format, details...))
+		os.Stderr.Sync()
 	}
-	logTool.Println(fmt.Sprintf(format, details...))
+}
+
+func Debug(format string, details ...interface{}) error {
+	if DebugFlag {
+		fmt.Fprintln(os.Stderr, fmt.Sprintf(format, details...))
+		os.Stderr.Sync()
+	}
+	return nil
+}
+
+func Trace(format string, details ...interface{}) error {
+	if TraceFlag {
+		fmt.Fprintln(os.Stderr, fmt.Sprintf(format, details...))
+		os.Stderr.Sync()
+	}
+	return nil
+}
+
+func Out(format string, details ...interface{}) {
+	fmt.Fprintf(os.Stdout, format, details...)
+	os.Stdout.Sync()
 }

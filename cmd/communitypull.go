@@ -8,6 +8,7 @@ import (
 
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/operations"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -22,15 +23,13 @@ var communityPullCmd = &cobra.Command{
 	Long:  "Pull a robot from URL or community sources.",
 	Args:  cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Pull lasted").Report()
 		}
 
 		zipfile := filepath.Join(os.TempDir(), fmt.Sprintf("pull%x.zip", time.Now().Unix()))
 		defer os.Remove(zipfile)
-		if common.Debug {
-			common.Log("Using temporary zipfile at %v", zipfile)
-		}
+		common.Debug("Using temporary zipfile at %v", zipfile)
 
 		var err error
 		branches := []string{branch, "master", "trunk", "main"}
@@ -44,15 +43,15 @@ var communityPullCmd = &cobra.Command{
 		}
 
 		if err != nil {
-			common.Exit(1, "Download failed: %v!", err)
+			pretty.Exit(1, "Download failed: %v!", err)
 		}
 
 		err = operations.Unzip(directory, zipfile, true, false)
 		if err != nil {
-			common.Exit(1, "Error: %v", err)
+			pretty.Exit(1, "Error: %v", err)
 		}
 
-		common.Log("OK.")
+		pretty.Ok()
 	},
 }
 

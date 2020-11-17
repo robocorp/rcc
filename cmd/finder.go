@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/pathlib"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -19,14 +20,14 @@ Example:
     rcc internal finder -d /starting/path/somewhere robot.yaml`,
 	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Finder run lasted").Report()
 		}
 		found, err := pathlib.FindNamedPath(shellDirectory, args[0])
 		if err != nil {
-			common.Exit(1, "Error: %v", err)
+			pretty.Exit(1, "Error: %v", err)
 		} else {
-			common.Log("%s", found)
+			common.Out("%s", found)
 		}
 	},
 }

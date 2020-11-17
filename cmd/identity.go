@@ -18,7 +18,7 @@ var identityCmd = &cobra.Command{
 	Short:   "Manage rcc instance identity related things.",
 	Long:    "Manage rcc instance identity related things.",
 	Run: func(cmd *cobra.Command, args []string) {
-		common.Log("rcc instance identity is: %v", xviper.TrackingIdentity())
+		common.Out("rcc instance identity is: %v", xviper.TrackingIdentity())
 		if enableTracking {
 			xviper.ConsentTracking(true)
 		}
@@ -26,9 +26,9 @@ var identityCmd = &cobra.Command{
 			xviper.ConsentTracking(false)
 		}
 		if xviper.CanTrack() {
-			common.Log("and anonymous health tracking is: enabled")
+			common.Out("and anonymous health tracking is: enabled")
 		} else {
-			common.Log("and anonymous health tracking is: disabled")
+			common.Out("and anonymous health tracking is: disabled")
 		}
 	},
 }

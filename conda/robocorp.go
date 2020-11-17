@@ -67,13 +67,13 @@ func dirnamesFrom(location string) []string {
 	result := make([]string, 0, 20)
 	handle, err := os.Open(ExpandPath(location))
 	if err != nil {
-		common.Log("Warning: %v", err)
+		common.Error("Warning", err)
 		return result
 	}
 	defer handle.Close()
 	children, err := handle.Readdir(-1)
 	if err != nil {
-		common.Log("Warning: %v", err)
+		common.Error("Warning", err)
 		return result
 	}
 

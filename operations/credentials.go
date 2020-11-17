@@ -150,12 +150,9 @@ func (it *account) UpdateDetails(details Token) {
 func listAccountsAsJson(accounts accountList) {
 	body, err := NiceJsonOutput(accounts)
 	if err != nil {
-		common.Log("Error: %v", err)
+		common.Error("list-accounts", err)
 	} else {
-		if common.Separator {
-			common.Log("--")
-		}
-		common.Log("%s", body)
+		common.Out("%s", body)
 	}
 }
 
@@ -216,7 +213,7 @@ func loadAccount(label string) *account {
 }
 
 func createEphemeralAccount(parts []string) *account {
-	BackgroundMetric("rcc", "rcc.account.ephemeral", "+1")
+	BackgroundMetric("rcc", "rcc.account.ephemeral", common.Version)
 	common.NoCache = true
 	endpoint := common.DefaultEndpoint
 	if len(parts[3]) > 0 {

@@ -33,9 +33,7 @@ func fixShellFile(fullpath string) {
 	if err != nil || bytes.IndexByte(content, '\r') < 0 {
 		return
 	}
-	if common.Debug {
-		common.Log("Fixing newlines in file: %v", fullpath)
-	}
+	common.Debug("Fixing newlines in file: %v", fullpath)
 	err = ioutil.WriteFile(fullpath, ToUnix(content), 0o755)
 	if err != nil {
 		common.Log("Failure %v while fixing newlines in %v!", err, fullpath)
@@ -49,9 +47,7 @@ func makeExecutable(fullpath string, file os.FileInfo) {
 		return
 	}
 	os.Chmod(fullpath, 0o755)
-	if common.Debug {
-		common.Log("Making file executable: %v", fullpath)
-	}
+	common.Debug("Making file executable: %v", fullpath)
 }
 
 func ensureFilesExecutable(dir string) {

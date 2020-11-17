@@ -3,24 +3,25 @@ package cmd
 import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/operations"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
 
 func createWorkarea() {
 	if len(directory) == 0 {
-		common.Exit(1, "Error: missing target directory")
+		pretty.Exit(1, "Error: missing target directory")
 	}
 	err := operations.InitializeWorkarea(directory, templateName, forceFlag)
 	if err != nil {
-		common.Exit(2, "Error: %v", err)
+		pretty.Exit(2, "Error: %v", err)
 	}
 }
 
 func listTemplates() {
-	common.Log("Template names:")
+	common.Out("Template names:")
 	for _, name := range operations.ListTemplates() {
-		common.Log("- %v", name)
+		common.Out("- %v", name)
 	}
 }
 
@@ -30,7 +31,7 @@ var initializeCmd = &cobra.Command{
 	Short:   "Create a directory structure for a robot.",
 	Long:    "Create a directory structure for a robot.",
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Initialization lasted").Report()
 		}
 		if listFlag {
@@ -38,7 +39,7 @@ var initializeCmd = &cobra.Command{
 		} else {
 			createWorkarea()
 		}
-		common.Log("OK.")
+		pretty.Ok()
 	},
 }
 

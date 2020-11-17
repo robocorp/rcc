@@ -6,6 +6,7 @@ import (
 	"github.com/robocorp/rcc/cloud"
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/operations"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -20,7 +21,7 @@ var credentialsCmd = &cobra.Command{
 	Long:  "Manage Robocorp Cloud API credentials for later use.",
 	Args:  cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Credentials query lasted").Report()
 		}
 		var account, credentials, endpoint string
@@ -48,31 +49,31 @@ var credentialsCmd = &cobra.Command{
 		}
 		https, err := cloud.EnsureHttps(endpoint)
 		if err != nil {
-			common.Exit(1, "Error: %v", err)
+			pretty.Exit(1, "Error: %v", err)
 		}
 		parts := strings.Split(credentials, ":")
 		if len(parts) != 2 {
-			common.Exit(1, "Error: No valid credentials detected. Copy them from Robocorp Cloud.")
+			pretty.Exit(1, "Error: No valid credentials detected. Copy them from Robocorp Cloud.")
 		}
 		common.Log("Adding credentials: %v", parts)
 		operations.UpdateCredentials(account, https, parts[0], parts[1])
 		if defaultFlag {
 			operations.SetDefaultAccount(account)
 		}
-		common.Log("OK.")
+		pretty.Ok()
 	},
 }
 
 func localDelete(accountName string) {
 	account := operations.AccountByName(accountName)
 	if account == nil {
-		common.Exit(1, "Could not find account by name: %v", accountName)
+		pretty.Exit(1, "Could not find account by name: %v", accountName)
 	}
 	err := account.Delete()
 	if err != nil {
-		common.Exit(3, "Error: %v", err)
+		pretty.Exit(3, "Error: %v", err)
 	}
-	common.Exit(0, "OK.")
+	pretty.Exit(0, "OK.")
 }
 
 func init() {

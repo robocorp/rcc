@@ -7,6 +7,7 @@ import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
 	"github.com/robocorp/rcc/pathlib"
+	"github.com/robocorp/rcc/pretty"
 	"github.com/robocorp/rcc/robot"
 	"github.com/robocorp/rcc/shell"
 )
@@ -46,17 +47,17 @@ func LoadTaskWithEnvironment(packfile, theTask string, force bool) (bool, robot.
 	FixRobot(packfile)
 	config, err := robot.LoadYamlConfiguration(packfile)
 	if err != nil {
-		common.Exit(1, "Error: %v", err)
+		pretty.Exit(1, "Error: %v", err)
 	}
 
 	ok, err := config.Validate()
 	if !ok {
-		common.Exit(2, "Error: %v", err)
+		pretty.Exit(2, "Error: %v", err)
 	}
 
 	todo := config.TaskByName(theTask)
 	if todo == nil {
-		common.Exit(3, "Error: Could not resolve task to run. Available tasks are: %v", config.AvailableTasks())
+		pretty.Exit(3, "Error: Could not resolve task to run. Available tasks are: %v", config.AvailableTasks())
 	}
 
 	if !config.UsesConda() {
@@ -65,7 +66,7 @@ func LoadTaskWithEnvironment(packfile, theTask string, force bool) (bool, robot.
 
 	label, err := conda.NewEnvironment(force, config.CondaConfigFile())
 	if err != nil {
-		common.Exit(4, "Error: %v", err)
+		pretty.Exit(4, "Error: %v", err)
 	}
 	return false, config, todo, label
 }
@@ -79,20 +80,18 @@ func SelectExecutionModel(runFlags *RunFlags, simple bool, template []string, co
 }
 
 func ExecuteSimpleTask(flags *RunFlags, template []string, config robot.Robot, todo robot.Task, interactive bool, extraEnv map[string]string) {
-	if common.Debug {
-		common.Log("Command line is: %v", template)
-	}
+	common.Debug("Command line is: %v", template)
 	task := make([]string, len(template))
 	copy(task, template)
 	searchPath := pathlib.TargetPath()
 	searchPath = searchPath.Prepend(todo.Paths(config)...)
 	found, ok := searchPath.Which(task[0], conda.FileExtensions)
 	if !ok {
-		common.Exit(6, "Error: Cannot find command: %v", task[0])
+		pretty.Exit(6, "Error: Cannot find command: %v", task[0])
 	}
 	fullpath, err := filepath.EvalSymlinks(found)
 	if err != nil {
-		common.Exit(7, "Error: %v", err)
+		pretty.Exit(7, "Error: %v", err)
 	}
 	var data Token
 	if len(flags.WorkspaceId) > 0 {
@@ -100,7 +99,7 @@ func ExecuteSimpleTask(flags *RunFlags, template []string, config robot.Robot, t
 		data, err = AuthorizeClaims(flags.AccountName, claims)
 	}
 	if err != nil {
-		common.Exit(8, "Error: %v", err)
+		pretty.Exit(8, "Error: %v", err)
 	}
 	task[0] = fullpath
 	directory := todo.WorkingDirectory(config)
@@ -122,34 +121,30 @@ func ExecuteSimpleTask(flags *RunFlags, template []string, config robot.Robot, t
 		}
 	}
 	outputDir := todo.ArtifactDirectory(config)
-	if common.Debug {
-		common.Log("DEBUG: about to run command - %v", task)
-	}
+	common.Debug("DEBUG: about to run command - %v", task)
 	_, err = shell.New(environment, directory, task...).Tee(outputDir, interactive)
 	if err != nil {
-		common.Exit(9, "Error: %v", err)
+		pretty.Exit(9, "Error: %v", err)
 	}
-	common.Log("OK.")
+	pretty.Ok()
 }
 
 func ExecuteTask(flags *RunFlags, template []string, config robot.Robot, todo robot.Task, label string, interactive bool, extraEnv map[string]string) {
-	if common.Debug {
-		common.Log("Command line is: %v", template)
-	}
+	common.Debug("Command line is: %v", template)
 	developmentEnvironment, err := robot.LoadEnvironmentSetup(flags.EnvironmentFile)
 	if err != nil {
-		common.Exit(5, "Error: %v", err)
+		pretty.Exit(5, "Error: %v", err)
 	}
 	task := make([]string, len(template))
 	copy(task, template)
 	searchPath := todo.SearchPath(config, label)
 	found, ok := searchPath.Which(task[0], conda.FileExtensions)
 	if !ok {
-		common.Exit(6, "Error: Cannot find command: %v", task[0])
+		pretty.Exit(6, "Error: Cannot find command: %v", task[0])
 	}
 	fullpath, err := filepath.EvalSymlinks(found)
 	if err != nil {
-		common.Exit(7, "Error: %v", err)
+		pretty.Exit(7, "Error: %v", err)
 	}
 	var data Token
 	if len(flags.WorkspaceId) > 0 {
@@ -157,7 +152,7 @@ func ExecuteTask(flags *RunFlags, template []string, config robot.Robot, todo ro
 		data, err = AuthorizeClaims(flags.AccountName, claims)
 	}
 	if err != nil {
-		common.Exit(8, "Error: %v", err)
+		pretty.Exit(8, "Error: %v", err)
 	}
 	task[0] = fullpath
 	directory := todo.WorkingDirectory(config)
@@ -182,12 +177,10 @@ func ExecuteTask(flags *RunFlags, template []string, config robot.Robot, todo ro
 	if !common.Silent && !interactive {
 		PipFreeze(searchPath, directory, outputDir, environment)
 	}
-	if common.Debug {
-		common.Log("DEBUG: about to run command - %v", task)
-	}
+	common.Debug("DEBUG: about to run command - %v", task)
 	_, err = shell.New(environment, directory, task...).Tee(outputDir, interactive)
 	if err != nil {
-		common.Exit(9, "Error: %v", err)
+		pretty.Exit(9, "Error: %v", err)
 	}
-	common.Log("OK.")
+	pretty.Ok()
 }

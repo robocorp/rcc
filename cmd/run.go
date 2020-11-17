@@ -4,6 +4,7 @@ import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
 	"github.com/robocorp/rcc/operations"
+	"github.com/robocorp/rcc/pretty"
 	"github.com/robocorp/rcc/xviper"
 
 	"github.com/spf13/cobra"
@@ -22,16 +23,16 @@ var runCmd = &cobra.Command{
 in your own machine.`,
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Task run lasted").Report()
 		}
 		ok := conda.MustConda()
 		if !ok {
-			common.Exit(2, "Could not get miniconda installed.")
+			pretty.Exit(2, "Could not get miniconda installed.")
 		}
 		defer xviper.RunMinutes().Done()
 		simple, config, todo, label := operations.LoadTaskWithEnvironment(robotFile, runTask, forceFlag)
-		operations.BackgroundMetric("rcc", "rcc.cli.run", "+1")
+		operations.BackgroundMetric("rcc", "rcc.cli.run", common.Version)
 		operations.SelectExecutionModel(captureRunFlags(), simple, todo.Commandline(), config, todo, label, false, nil)
 	},
 }

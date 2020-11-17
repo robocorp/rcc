@@ -8,6 +8,7 @@ import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
 	"github.com/robocorp/rcc/operations"
+	"github.com/robocorp/rcc/pretty"
 	"github.com/robocorp/rcc/robot"
 
 	"github.com/spf13/cobra"
@@ -40,19 +41,13 @@ func asJson(items []string) error {
 	if err != nil {
 		return err
 	}
-	if common.Separator {
-		fmt.Println("--")
-	}
-	fmt.Println(content)
+	common.Out("%s", content)
 	return nil
 }
 
 func asText(items []string) {
-	if common.Separator {
-		fmt.Println("--")
-	}
 	for _, line := range items {
-		fmt.Println(line)
+		common.Out(line)
 	}
 }
 
@@ -136,11 +131,11 @@ var variablesCmd = &cobra.Command{
 
 		ok := conda.MustConda()
 		if !ok {
-			common.Exit(2, "Could not get miniconda installed.")
+			pretty.Exit(2, "Could not get miniconda installed.")
 		}
 		err := exportEnvironment(args, robotFile, runTask, environmentFile, workspaceId, validityTime, jsonFlag)
 		if err != nil {
-			common.Exit(1, "Error: Variable exporting failed because: %v", err)
+			pretty.Exit(1, "Error: Variable exporting failed because: %v", err)
 		}
 	},
 }

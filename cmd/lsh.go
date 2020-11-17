@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -19,7 +20,7 @@ or requirements.txt, or similar text files.`,
 		for _, arg := range args {
 			out, err := conda.HashConfig(arg)
 			if err != nil {
-				common.Log("%v", err.Error())
+				common.Error("lsh", err)
 				failure = true
 				continue
 			}
@@ -30,7 +31,7 @@ or requirements.txt, or similar text files.`,
 			common.Log("%s: %s <%d>", out, arg, distance)
 		}
 		if failure {
-			common.Exit(1, "Error!")
+			pretty.Exit(1, "Error!")
 		}
 	},
 }

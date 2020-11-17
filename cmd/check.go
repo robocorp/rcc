@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -14,34 +15,26 @@ var checkCmd = &cobra.Command{
 	Long: `Check if conda is installed. And optionally also force download and install
 conda using "rcc conda download" and "rcc conda install" commands.  `,
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Conda check took").Report()
 		}
 		if conda.HasConda() {
-			common.Exit(0, "OK.")
+			pretty.Exit(0, "OK.")
 		}
-		if common.Debug {
-			common.Log("Conda is missing ...")
-		}
+		common.Debug("Conda is missing ...")
 		if !autoInstall {
-			common.Exit(1, "Error: No conda.")
+			pretty.Exit(1, "Error: No conda.")
 		}
-		if common.Debug {
-			common.Log("Starting conda download ...")
+		common.Debug("Starting conda download ...")
+		if !(conda.DoDownload() || conda.DoDownload() || conda.DoDownload()) {
+			pretty.Exit(2, "Error: Conda download failed.")
 		}
-		if !conda.DoDownload() {
-			common.Exit(2, "Error: Conda download failed.")
-		}
-		if common.Debug {
-			common.Log("Starting conda install ...")
-		}
+		common.Debug("Starting conda install ...")
 		if !conda.DoInstall() {
-			common.Exit(3, "Error: Conda install failed.")
+			pretty.Exit(3, "Error: Conda install failed.")
 		}
-		if common.Debug {
-			common.Log("Conda install completed ...")
-		}
-		common.Log("OK.")
+		common.Debug("Conda install completed ...")
+		pretty.Ok()
 	},
 }
 

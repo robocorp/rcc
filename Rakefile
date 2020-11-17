@@ -28,7 +28,7 @@ task :assets do
     assetname = File.absolute_path(File.join("assets", "#{basename}.zip"))
     rm_rf assetname
     puts "Directory #{directory} => #{assetname}"
-    sh "chdir #{directory} && zip -ryqD9 #{assetname} ."
+    sh "cd #{directory} && zip -ryqD9 #{assetname} ."
   end
   sh "$HOME/go/bin/go-bindata -o blobs/assets.go -pkg blobs assets/*.zip assets/man/*"
 end

@@ -1,8 +1,8 @@
 package cmd
 
 import (
-	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -16,7 +16,7 @@ you must successfully run the "download" command and verify that the miniconda S
 matches the one on the conda site.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if !conda.DoInstall() {
-			common.Exit(1, "Error: Install failed. See above.")
+			pretty.Exit(1, "Error: Install failed. See above.")
 		}
 	},
 }

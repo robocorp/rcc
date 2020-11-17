@@ -11,6 +11,7 @@ import (
 	"github.com/robocorp/rcc/conda"
 	"github.com/robocorp/rcc/operations"
 	"github.com/robocorp/rcc/pathlib"
+	"github.com/robocorp/rcc/pretty"
 	"github.com/robocorp/rcc/robot"
 	"github.com/robocorp/rcc/xviper"
 
@@ -26,23 +27,23 @@ var assistantRunCmd = &cobra.Command{
 		var status, reason string
 		status, reason = "ERROR", "UNKNOWN"
 		elapser := common.Stopwatch("Robot Assistant startup lasted")
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Robot Assistant run lasted").Report()
 		}
 		now := time.Now()
 		marker := now.Unix()
 		ok := conda.MustConda()
 		if !ok {
-			common.Exit(2, "Could not get miniconda installed.")
+			pretty.Exit(2, "Could not get miniconda installed.")
 		}
 		defer xviper.RunMinutes().Done()
 		account := operations.AccountByName(AccountName())
 		if account == nil {
-			common.Exit(1, "Could not find account by name: %v", AccountName())
+			pretty.Exit(1, "Could not find account by name: %v", AccountName())
 		}
 		client, err := cloud.NewClient(account.Endpoint)
 		if err != nil {
-			common.Exit(2, "Could not create client for endpoint: %v, reason: %v", account.Endpoint, err)
+			pretty.Exit(2, "Could not create client for endpoint: %v, reason: %v", account.Endpoint, err)
 		}
 		reason = "START_FAILURE"
 		operations.BackgroundMetric("rcc", "rcc.assistant.run.start", elapser.String())
@@ -51,36 +52,28 @@ var assistantRunCmd = &cobra.Command{
 		}()
 		assistant, err := operations.StartAssistantRun(client, account, workspaceId, assistantId)
 		if err != nil {
-			common.Exit(3, "Could not run assistant, reason: %v", err)
+			pretty.Exit(3, "Could not run assistant, reason: %v", err)
 		}
 		cancel := make(chan bool)
 		go operations.BackgroundAssistantHeartbeat(cancel, client, account, workspaceId, assistantId, assistant.RunId)
 		if assistant != nil && len(assistant.RunId) > 0 {
 			defer func() {
 				close(cancel)
-				if common.Debug {
-					common.Log("Signaling cloud with status %v with reason %v.", status, reason)
-				}
+				common.Debug("Signaling cloud with status %v with reason %v.", status, reason)
 				err := operations.StopAssistantRun(client, account, workspaceId, assistantId, assistant.RunId, status, reason)
-				if err != nil {
-					common.Log("Error stopping assistant: %v", err)
-				}
+				common.Error("Stop assistant", err)
 			}()
 		}
-		if common.Debug {
-			common.Log("Robot Assistant run-id is %v.", assistant.RunId)
-			common.Log("With task '%v' from zip %v.", assistant.TaskName, assistant.Zipfile)
-		}
+		common.Debug("Robot Assistant run-id is %v.", assistant.RunId)
+		common.Debug("With task '%v' from zip %v.", assistant.TaskName, assistant.Zipfile)
 		sentinelTime := time.Now()
 		workarea := filepath.Join(os.TempDir(), fmt.Sprintf("workarea%x", marker))
 		defer os.RemoveAll(workarea)
-		if common.Debug {
-			common.Log("Using temporary workarea: %v", workarea)
-		}
+		common.Debug("Using temporary workarea: %v", workarea)
 		reason = "UNZIP_FAILURE"
 		err = operations.Unzip(workarea, assistant.Zipfile, false, true)
 		if err != nil {
-			common.Exit(4, "Error: %v", err)
+			pretty.Exit(4, "Error: %v", err)
 		}
 		reason = "SETUP_FAILURE"
 		targetRobot := robot.DetectConfigurationName(workarea)
@@ -92,7 +85,7 @@ var assistantRunCmd = &cobra.Command{
 				defer pathlib.Walk(artifactDir, pathlib.IgnoreOlder(sentinelTime).Ignore, TargetDir(copyDirectory).OverwriteBack)
 			}
 		}
-		if common.Debug {
+		if common.DebugFlag {
 			elapser.Report()
 		}
 
@@ -109,7 +102,7 @@ var assistantRunCmd = &cobra.Command{
 			pathlib.Walk(artifactDir, pathlib.IgnoreDirectories, publisher.Publish)
 			if publisher.ErrorCount > 0 {
 				reason = "UPLOAD_FAILURE"
-				common.Exit(5, "Error: Some of uploads failed.")
+				pretty.Exit(5, "Error: Some of uploads failed.")
 			}
 		}()
 
@@ -119,7 +112,7 @@ var assistantRunCmd = &cobra.Command{
 		}()
 		reason = "ROBOT_FAILURE"
 		operations.SelectExecutionModel(captureRunFlags(), simple, todo.Commandline(), config, todo, label, false, assistant.Environment)
-		common.Log("OK.")
+		pretty.Ok()
 		status, reason = "OK", "PASS"
 	},
 }

@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/conda"
+	"github.com/robocorp/rcc/pretty"
 
 	"github.com/spf13/cobra"
 )
@@ -24,7 +25,7 @@ var libsCmd = &cobra.Command{
 	Short:   "Manage library dependencies in an action oriented way.",
 	Long:    "Manage library dependencies in an action oriented way.",
 	Run: func(cmd *cobra.Command, args []string) {
-		if common.Debug {
+		if common.DebugFlag {
 			defer common.Stopwatch("Robot libs lasted").Report()
 		}
 		changes := &conda.Changes{
@@ -37,10 +38,10 @@ var libsCmd = &cobra.Command{
 		}
 		output, err := conda.UpdateEnvironment(condaOption, changes)
 		if err != nil {
-			common.Exit(1, "Error: %v", err)
+			pretty.Exit(1, "Error: %v", err)
 		}
-		common.Log("%s", output)
-		common.Log("OK.")
+		common.Out("%s", output)
+		pretty.Ok()
 	},
 }
 

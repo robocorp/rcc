@@ -18,23 +18,17 @@ const (
 func sendMetric(kind, name, value string) {
 	client, err := cloud.NewClient(metricsHost)
 	if err != nil {
-		if common.Debug {
-			common.Log("ERROR: %v", err)
-		}
+		common.Debug("ERROR: %v", err)
 		return
 	}
 	timestamp := time.Now().UnixNano()
 	url := fmt.Sprintf(trackingUrl, url.PathEscape(kind), timestamp, url.PathEscape(xviper.TrackingIdentity()), url.PathEscape(name), url.PathEscape(value))
-	if common.Debug {
-		common.Log("DEBUG: Sending metric as %v%v", metricsHost, url)
-	}
+	common.Debug("DEBUG: Sending metric as %v%v", metricsHost, url)
 	client.Put(client.NewRequest(url))
 }
 
 func SendMetric(kind, name, value string) {
-	if common.Debug {
-		common.Log("DEBUG: SendMetric kind:%v name:%v value:%v send:%v", kind, name, value, xviper.CanTrack())
-	}
+	common.Debug("DEBUG: SendMetric kind:%v name:%v value:%v send:%v", kind, name, value, xviper.CanTrack())
 	if xviper.CanTrack() {
 		sendMetric(kind, name, value)
 	}

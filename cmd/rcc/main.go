@@ -16,7 +16,7 @@ func ExitProtection() {
 			exit.ShowMessage()
 			os.Exit(exit.Code)
 		}
-		operations.SendMetric("rcc", "rcc.failure", "panic")
+		operations.SendMetric("rcc", "rcc.panic.origin", cmd.Origin())
 		panic(status)
 	}
 }

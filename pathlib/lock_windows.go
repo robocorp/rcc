@@ -33,12 +33,12 @@ func Locker(filename string, trycount int) (Releaser, error) {
 	}
 	var file *os.File
 	var err error
-	if common.Trace {
-		common.Log("LOCKER: Want lock on: %v", filename)
+	if common.TraceFlag {
 		defer func() {
 			common.Stopwatch("LOCKER: Leaving lock on %v with %v retries left in", filename, trycount).Report()
 		}()
 	}
+	common.Trace("LOCKER: Want lock on: %v", filename)
 	_, err = EnsureParentDirectory(filename)
 	if err != nil {
 		return nil, err
@@ -70,9 +70,7 @@ func Locker(filename string, trycount int) (Releaser, error) {
 
 func (it Locked) Release() error {
 	success, err := trylock(unlockFile, it)
-	if common.Trace {
-		common.Log("LOCKER: release success: %v with err: %v", success, err)
-	}
+	common.Trace("LOCKER: release success: %v with err: %v", success, err)
 	return err
 }
 

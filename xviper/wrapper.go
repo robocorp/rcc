@@ -89,9 +89,7 @@ func (it *config) Summon() *viper.Viper {
 		return it.Viper
 	}
 	if when.After(it.Timestamp) {
-		if common.Debug {
-			common.Log("Configuration %v changed, reloading!", it.Filename)
-		}
+		common.Debug("Configuration %v changed, reloading!", it.Filename)
 		it.Reload()
 	}
 	return it.Viper

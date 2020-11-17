@@ -26,9 +26,7 @@ func CacheRobot(filename string) error {
 	if err != nil {
 		return err
 	}
-	if common.Debug {
-		common.Log("Digest for %v is %v.", fullpath, digest)
-	}
+	common.Debug("Digest for %v is %v.", fullpath, digest)
 	_, exists := LookupRobot(digest)
 	if exists {
 		return nil
@@ -67,9 +65,7 @@ func LookupRobot(digest string) (string, bool) {
 func CleanupOldestRobot() {
 	oldest, _ := OldestRobot()
 	if pathlib.IsFile(oldest) {
-		if common.Debug {
-			common.Log("Removing oldest cached robot %v.", oldest)
-		}
+		common.Debug("Removing oldest cached robot %v.", oldest)
 		os.Remove(oldest)
 	}
 }

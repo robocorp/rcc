@@ -98,9 +98,7 @@ func (it *internalEnvironment) AsEnvironment() *Environment {
 	channel, ok := LocalChannel()
 	if ok {
 		pushChannels(result, []string{channel})
-		if common.Debug {
-			common.Log("Using local conda channel from: %v", channel)
-		}
+		common.Debug("Using local conda channel from: %v", channel)
 	}
 	pushChannels(result, it.Channels)
 	pushConda(result, it.condaDependencies())

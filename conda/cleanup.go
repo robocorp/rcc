@@ -28,9 +28,7 @@ func Cleanup(daylimit int, dryrun, all bool) error {
 			continue
 		}
 		RemoveEnvironment(template)
-		if common.Debug {
-			common.Log("Removed environment %v.", template)
-		}
+		common.Debug("Removed environment %v.", template)
 	}
 	return nil
 }

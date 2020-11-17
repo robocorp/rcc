@@ -10,6 +10,7 @@ import (
 	"github.com/robocorp/rcc/conda"
 	"github.com/robocorp/rcc/operations"
 	"github.com/robocorp/rcc/pathlib"
+	"github.com/robocorp/rcc/pretty"
 	"github.com/robocorp/rcc/xviper"
 
 	"github.com/spf13/cobra"
@@ -22,7 +23,7 @@ func toplevelCommands(parent *cobra.Command) {
 			continue
 		}
 		name := strings.Split(child.Use, " ")
-		common.Log("| %-14s  %s", name[0], child.Short)
+		common.Log("| %s%-14s%s  %s", pretty.Cyan, name[0], pretty.Reset, child.Short)
 	}
 }
 
@@ -57,9 +58,19 @@ tasks can be developed, debugged, and run.`,
 	},
 }
 
+func Origin() string {
+	target, _, err := rootCmd.Find(os.Args[1:])
+	origin := []string{common.Version}
+	for err == nil && target != nil {
+		origin = append(origin, target.Name())
+		target = target.Parent()
+	}
+	return strings.Join(origin, ":")
+}
+
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		common.Exit(1, "Error: [rcc %v] %v", common.Version, err)
+		pretty.Exit(1, "Error: [rcc %v] %v", common.Version, err)
 	}
 }
 
@@ -70,12 +81,11 @@ func init() {
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $ROBOCORP/rcc.yaml)")
 
 	rootCmd.PersistentFlags().BoolVarP(&common.Silent, "silent", "", false, "be less verbose on output")
-	rootCmd.PersistentFlags().BoolVarP(&common.Separator, "separator", "", false, "write one line separator '--' before JSON output")
 	rootCmd.PersistentFlags().BoolVarP(&pathlib.Lockless, "lockless", "", false, "do not use file locking ... DANGER!")
 	rootCmd.PersistentFlags().BoolVarP(&common.NoCache, "nocache", "", false, "do not use cache for credentials and tokens, always request them from cloud")
 
-	rootCmd.PersistentFlags().BoolVarP(&common.Debug, "debug", "", false, "to get debug output where available (not for production use)")
-	rootCmd.PersistentFlags().BoolVarP(&common.Trace, "trace", "", false, "to get trace output where available (not for production use)")
+	rootCmd.PersistentFlags().BoolVarP(&common.DebugFlag, "debug", "", false, "to get debug output where available (not for production use)")
+	rootCmd.PersistentFlags().BoolVarP(&common.TraceFlag, "trace", "", false, "to get trace output where available (not for production use)")
 }
 
 func initConfig() {
@@ -90,11 +100,7 @@ func initConfig() {
 		operations.BackgroundMetric("rcc", "rcc.controlled.by", controllerType)
 	}
 
-	if common.Trace {
-		common.Log("CLI command was: %#v", os.Args)
-	}
-
-	if common.Debug {
-		common.Log("Using config file: %v", xviper.ConfigFileUsed())
-	}
+	pretty.Setup()
+	common.Trace("CLI command was: %#v", os.Args)
+	common.Debug("Using config file: %v", xviper.ConfigFileUsed())
 }

@@ -19,7 +19,7 @@ var dirhashCmd = &cobra.Command{
 		for _, directory := range args {
 			stat, err := os.Stat(directory)
 			if err != nil {
-				common.Log("- %v", err)
+				common.Error("dirhash", err)
 				continue
 			}
 			if !stat.IsDir() {
@@ -27,7 +27,7 @@ var dirhashCmd = &cobra.Command{
 			}
 			digest, err := conda.DigestFor(directory)
 			if err != nil {
-				common.Log("- %v", err)
+				common.Error("dirhash", err)
 				continue
 			}
 			result := conda.Hexdigest(digest)
