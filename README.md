@@ -1,26 +1,29 @@
-![Robot Code Configuration (RCC)](/docs/title.png)
+![RCC](/docs/title.png)
 
-Robot Code Configuration, or just `rcc` for short, is a set of tooling that allows you to create, manage, and distribute Python-based self-contained automation packages - or robots :robot: as we call them.
+RCC is a set of tooling that allows you to create, manage, and distribute Python-based self-contained automation packages - or robots :robot: as we call them.
 
 Together with [robot.yaml](https://robocorp.com/docs/setup/robot-yaml-format) configuration file, `rcc` is a foundation that allows anyone to build and share automation with ease.
 
-<img src="/docs/robocorp_stack.png" width="400">
+<p align="center">
+  <img width="400" src="./docs/robocorp_stack.png">
+</p>
+
 
 ## Getting Started
 
-Install rcc:
-:arrow_double_down: [Downdload rcc](#direct-downloads-for-signed-executables-provided-by-robocorp)
+:arrow_double_down: Install rcc 
+> [Download RCC](#direct-downloads-for-signed-executables-provided-by-robocorp)
 
-Create new robot from template
-:hatching_chick: `rcc create`
+:hatching_chick: Create new robot from template
+> `rcc robot initialize -t standard`
 
-Run robot:
-:running: `rcc run`
+:running: Run robot
+> `rcc run`
 
-Pull robot from GitHub:
-:octocat: `rcc pull`
+:octocat: Pull robot from GitHub:
+> `rcc pull github.com/robocorp/example-google-image-search`
 
-For detailed instructions, visit [Robocorp rcc documentation](https://robocorp.com/docs/product-manuals/robocorp-cli) to get started. To build `rcc` from this repository see the [Setup Guide](/docs/BUILD.md)
+For detailed instructions, visit [Robocorp RCC documentation](https://robocorp.com/docs/product-manuals/robocorp-cli) to get started. To build `rcc` from this repository see the [Setup Guide](/docs/BUILD.md)
 
 ### Direct downloads for signed executables provided by Robocorp
 
