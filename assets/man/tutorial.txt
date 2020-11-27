@@ -17,4 +17,4 @@ Check help for any command with --help. Explore other available commands.
     rcc configure credentials
     rcc cloud push
 
-Have fun! ;-)
+Have fun!
