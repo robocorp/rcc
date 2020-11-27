@@ -13,8 +13,8 @@ Jumpstart your development with robot examples and templates from out community.
 
 Check help for any command with --help. Explore other available commands.
 
-  rcc
-  rcc configure credentials
-  rcc cloud push
+    rcc
+    rcc configure credentials
+    rcc cloud push
 
 Have fun! ;-)
