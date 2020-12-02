@@ -5,7 +5,9 @@ Create you first Robot Framework or python robot and follow given instructions t
 
     rcc create
 
-Jumpstart your development with robot examples and templates from out community. Download and run any robot from Robocorp Portal https://robocorp.com/robots/ , for example:
+Jumpstart your development with robot examples and templates from our community. 
+Download and run any robot from Robocorp Portal https://robocorp.com/robots/
+For example:
 
     rcc pull example-google-image-search
     cd example-google-image-search-main
