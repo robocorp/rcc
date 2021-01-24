@@ -12,7 +12,7 @@ Together with [robot.yaml](https://robocorp.com/docs/setup/robot-yaml-format) co
 ## Getting Started
 
 :arrow_double_down: Install rcc 
-> [Download RCC](#direct-downloads-for-signed-executables-provided-by-robocorp)
+> [Install](#installing-rcc-from-command-line) or [Download RCC](#direct-downloads-for-signed-executables-provided-by-robocorp)
 
 :octocat: Pull robot from GitHub:
 > `rcc pull github.com/robocorp/example-google-image-search`
@@ -24,6 +24,40 @@ Together with [robot.yaml](https://robocorp.com/docs/setup/robot-yaml-format) co
 > `rcc robot initialize -t standard`
 
 For detailed instructions, visit [Robocorp RCC documentation](https://robocorp.com/docs/product-manuals/robocorp-cli) to get started. To build `rcc` from this repository see the [Setup Guide](/docs/BUILD.md)
+
+## Installing RCC from command line
+
+### Windows
+
+1. Open the command prompt
+1. Download: `curl -o rcc.exe https://downloads.code.robocorp.com/rcc/latest/windows64/rcc.exe`
+1. [Add to system path](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/): Open Start -> `Edit the system environment variables`
+1. Test: `rcc`
+
+### macOS
+
+#### Brew cask from Robocorp tap
+
+1. Install: `brew install robocorp/tools/rcc`
+1. Test: `rcc`
+
+Upgrading: `brew upgrade rcc`
+
+#### Raw download
+
+1. Open the terminal
+1. Download: `curl -o rcc https://downloads.code.robocorp.com/rcc/latest/macos64/rcc`
+1. Make the downloaded file executable: `chmod a+x rcc`
+1. Add to path: `sudo mv rcc /usr/local/bin/`
+1. Test: `rcc`
+
+### Linux
+
+1. Open the terminal
+1. Download: `curl -o rcc https://downloads.code.robocorp.com/rcc/latest/linux64/rcc`
+1. Make the downloaded file executable: `chmod a+x rcc`
+1. Add to path: `sudo mv rcc /usr/local/bin/`
+1. Test: `rcc`
 
 ### Direct downloads for signed executables provided by Robocorp
 
