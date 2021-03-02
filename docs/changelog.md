@@ -1,5 +1,9 @@
 # rcc change log
 
+## v9.5.4 (date: 2.3.2021)
+
+- Updated rpaframework to version 7.6.0 in templates
+
 ## v9.5.3 (date: 2.3.2021)
 
 - added `--interactive` flag to `rcc task run` command, so that developers

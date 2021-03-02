@@ -12,4 +12,4 @@ dependencies:
   - pip:
     # Define pip packages here. 
     # https://pypi.org/
-    - rpaframework==7.1.1 # https://rpaframework.org/releasenotes.html
+    - rpaframework==7.6.0 # https://rpaframework.org/releasenotes.html
