@@ -1,11 +1,16 @@
 *** Settings ***
 Documentation   Template robot main suite.
-Resource        keywords.robot
+Library         Collections
+
 Library         MyLibrary
-Variables       variables.py
+Resource        keywords.robot
+Variables       MyVariables.py
 
 
 *** Tasks ***
-Example task
+Example Task
     Example Keyword
     Example Python Keyword
+    Log     ${TODAY}
+
+
