@@ -1,5 +1,11 @@
 # rcc change log
 
+## v9.8.5 (date: 24.3.2021)
+
+- Robot templates updated: Rpaframework updated to v9.1.0
+- Robot templates updated: Improved task names
+- Robot templates updated: Extended template has example of multiple tasks execution
+
 ## v9.8.4 (date: 24.3.2021)
 
 - fix for pip made too silent on this v9.8.x series
