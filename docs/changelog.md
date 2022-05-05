@@ -1,5 +1,9 @@
 # rcc change log
 
+## v11.12.2 (date: 5.5.2022)
+
+- legacyfix: Adding `x-` prefix to custom header, due to some enterprise network proxies stripping headers.
+
 ## v11.12.1 (date: 29.4.2022)
 
 - bugfix: duplicate devTask note when error needs to be shown

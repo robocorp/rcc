@@ -20,7 +20,7 @@ const (
 	contentType            = `content-type`
 	contentLength          = `content-length`
 	authorization          = `authorization`
-	nonceHeader            = `authorization-timestamp`
+	nonceHeader            = `x-authorization-timestamp`
 	applicationJson        = `application/json`
 	applicationOctetStream = `application/octet-stream`
 	WorkspaceApi           = `/token-vendor-v1/workspaces/%s/tokenrequest`
