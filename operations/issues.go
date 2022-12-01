@@ -3,7 +3,6 @@ package operations
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -19,7 +18,7 @@ const (
 )
 
 func loadToken(reportFile string) (Token, error) {
-	content, err := ioutil.ReadFile(reportFile)
+	content, err := os.ReadFile(reportFile)
 	if err != nil {
 		return nil, err
 	}

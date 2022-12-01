@@ -4,7 +4,6 @@ import (
 	"crypto/sha256"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -133,7 +132,7 @@ func (it *internalClient) does(method string, request *Request) *Response {
 	if request.Stream != nil {
 		io.Copy(request.Stream, httpResponse.Body)
 	} else {
-		response.Body, response.Err = ioutil.ReadAll(httpResponse.Body)
+		response.Body, response.Err = io.ReadAll(httpResponse.Body)
 	}
 	if common.DebugFlag {
 		body := "ignore"

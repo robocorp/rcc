@@ -3,7 +3,6 @@ package robot
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -529,7 +528,7 @@ func LoadRobotYaml(filename string, visible bool) (Robot, error) {
 	if err != nil {
 		return nil, fmt.Errorf("%q: %w", filename, err)
 	}
-	content, err := ioutil.ReadFile(fullpath)
+	content, err := os.ReadFile(fullpath)
 	if err != nil {
 		return nil, fmt.Errorf("%q: %w", fullpath, err)
 	}

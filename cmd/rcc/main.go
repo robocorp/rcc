@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -85,7 +84,7 @@ func markTempForRecycling() {
 	target := common.RobocorpTempName()
 	if pathlib.Exists(target) {
 		filename := filepath.Join(target, "recycle.now")
-		ioutil.WriteFile(filename, []byte("True"), 0o644)
+		os.WriteFile(filename, []byte("True"), 0o644)
 		common.Debug("Marked %q for recycling.", target)
 		markedAlready = true
 	}

@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"math/rand"
 	"os"
 	"path/filepath"
@@ -130,7 +129,7 @@ func newLiveInternal(yaml, condaYaml, requirementsText, key string, force, fresh
 	}
 	defer func() {
 		planSink.Close()
-		content, err := ioutil.ReadFile(planfile)
+		content, err := os.ReadFile(planfile)
 		if err == nil {
 			common.Log("%s", string(content))
 		}
@@ -273,7 +272,7 @@ func newLiveInternal(yaml, condaYaml, requirementsText, key string, force, fresh
 	common.Debug("===  finalize phase ===")
 
 	markerFile := filepath.Join(targetFolder, "identity.yaml")
-	err = ioutil.WriteFile(markerFile, []byte(yaml), 0o644)
+	err = os.WriteFile(markerFile, []byte(yaml), 0o644)
 	if err != nil {
 		return false, false
 	}
@@ -282,7 +281,7 @@ func newLiveInternal(yaml, condaYaml, requirementsText, key string, force, fresh
 	if ok {
 		venvContent := fmt.Sprintf(venvTemplate, targetFolder, pythonVersionAt(targetFolder))
 		venvFile := filepath.Join(targetFolder, "pyvenv.cfg")
-		err = ioutil.WriteFile(venvFile, []byte(venvContent), 0o644)
+		err = os.WriteFile(venvFile, []byte(venvContent), 0o644)
 		if err != nil {
 			return false, false
 		}

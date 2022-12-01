@@ -1,7 +1,7 @@
 package conda
 
 import (
-	"io/ioutil"
+	"os"
 	"regexp"
 	"sort"
 	"strings"
@@ -20,7 +20,7 @@ func SplitLines(value string) []string {
 }
 
 func ReadConfig(filename string) (string, error) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		return "", err
 	}

@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -202,7 +201,7 @@ func MultipartUpload(url string, fields map[string]string, basename, fullpath st
 }
 
 func IoAsString(source io.Reader) string {
-	body, err := ioutil.ReadAll(source)
+	body, err := io.ReadAll(source)
 	if err != nil {
 		return ""
 	}

@@ -2,7 +2,7 @@ package operations_test
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"strings"
 	"testing"
 
@@ -45,7 +45,7 @@ func TestBodyIsCorrectlyConverted(t *testing.T) {
 
 	reader := strings.NewReader("{\n}")
 	wont_be.Nil(reader)
-	body, err := ioutil.ReadAll(reader)
+	body, err := io.ReadAll(reader)
 	must_be.Nil(err)
 	wont_be.Nil(body)
 	must_be.Equal("{\n}", string(body))

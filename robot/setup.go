@@ -2,7 +2,7 @@ package robot
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	"gopkg.in/yaml.v2"
@@ -38,7 +38,7 @@ func LoadEnvironmentSetup(filename string) (Setup, error) {
 	if err != nil {
 		return nil, fmt.Errorf("%q: %w", filename, err)
 	}
-	content, err := ioutil.ReadFile(fullpath)
+	content, err := os.ReadFile(fullpath)
 	if err != nil {
 		return nil, fmt.Errorf("%q: %w", fullpath, err)
 	}

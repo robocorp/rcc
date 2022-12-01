@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -62,7 +62,7 @@ func createScript(targetFolder string) (string, error) {
 	script.Execute(buffer, details)
 
 	scriptfile := filepath.Join(targetFolder, fmt.Sprintf("rcc_activate%s", commandSuffix))
-	err = ioutil.WriteFile(scriptfile, buffer.Bytes(), 0o755)
+	err = os.WriteFile(scriptfile, buffer.Bytes(), 0o755)
 	if err != nil {
 		return "", err
 	}
@@ -138,7 +138,7 @@ func Activate(sink io.Writer, targetFolder string) error {
 		return err
 	}
 	targetJson := filepath.Join(targetFolder, activateFile)
-	err = ioutil.WriteFile(targetJson, body, 0o644)
+	err = os.WriteFile(targetJson, body, 0o644)
 	if err != nil {
 		return err
 	}
@@ -148,7 +148,7 @@ func Activate(sink io.Writer, targetFolder string) error {
 func LoadActivationEnvironment(targetFolder string) []string {
 	result := []string{}
 	targetJson := filepath.Join(targetFolder, activateFile)
-	content, err := ioutil.ReadFile(targetJson)
+	content, err := os.ReadFile(targetJson)
 	if err != nil {
 		return result
 	}

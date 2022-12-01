@@ -2,7 +2,6 @@ package operations
 
 import (
 	"bytes"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -40,12 +39,12 @@ func ToUnix(content []byte) []byte {
 }
 
 func fixShellFile(fullpath string) {
-	content, err := ioutil.ReadFile(fullpath)
+	content, err := os.ReadFile(fullpath)
 	if err != nil || bytes.IndexByte(content, '\r') < 0 {
 		return
 	}
 	common.Debug("Fixing newlines in file: %v", fullpath)
-	err = ioutil.WriteFile(fullpath, ToUnix(content), 0o755)
+	err = os.WriteFile(fullpath, ToUnix(content), 0o755)
 	if err != nil {
 		common.Log("Failure %v while fixing newlines in %v!", err, fullpath)
 	}

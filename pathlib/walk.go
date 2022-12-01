@@ -1,7 +1,6 @@
 package pathlib
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sort"
@@ -93,7 +92,7 @@ func IgnorePattern(text string) Ignore {
 }
 
 func LoadIgnoreFile(filename string) (Ignore, error) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}

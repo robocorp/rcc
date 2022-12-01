@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net"
 	"os"
 	"os/user"
@@ -473,7 +472,7 @@ func diagnoseFilesUnmarshal(tool Unmarshaler, label, rootdir string, paths []str
 		if shouldIgnorePath(fullpath) {
 			continue
 		}
-		content, err := ioutil.ReadFile(fullpath)
+		content, err := os.ReadFile(fullpath)
 		if err != nil {
 			diagnose.Fail(supportGeneralUrl, "Problem reading %s file %q: %v", label, tail, err)
 			success = false

@@ -2,7 +2,7 @@ package conda
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"regexp"
 	"strings"
 
@@ -429,13 +429,13 @@ func (it *Environment) SaveAs(filename string) error {
 		return err
 	}
 	common.Trace("FINAL conda environment file as %v:\n---\n%v---", filename, content)
-	return ioutil.WriteFile(filename, []byte(content), 0o640)
+	return os.WriteFile(filename, []byte(content), 0o640)
 }
 
 func (it *Environment) SaveAsRequirements(filename string) error {
 	content := it.AsRequirementsText()
 	common.Trace("FINAL pip requirements as %v:\n---\n%v\n---", filename, content)
-	return ioutil.WriteFile(filename, []byte(content), 0o640)
+	return os.WriteFile(filename, []byte(content), 0o640)
 }
 
 func (it *Environment) AsYaml() (string, error) {
@@ -550,7 +550,7 @@ func CondaYamlFrom(content []byte) (*Environment, error) {
 }
 
 func ReadCondaYaml(filename string) (*Environment, error) {
-	content, err := ioutil.ReadFile(filename)
+	content, err := os.ReadFile(filename)
 	if err != nil {
 		return nil, fmt.Errorf("%q: %w", filename, err)
 	}

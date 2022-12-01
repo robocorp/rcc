@@ -1,7 +1,6 @@
 package htfs
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -135,7 +134,7 @@ func RecordEnvironment(tree MutableLibrary, blueprint []byte, force bool, scorec
 
 		common.Progress(4, "Build environment into holotree stage.")
 		identityfile := filepath.Join(tree.Stage(), "identity.yaml")
-		err = ioutil.WriteFile(identityfile, blueprint, 0o644)
+		err = os.WriteFile(identityfile, blueprint, 0o644)
 		fail.On(err != nil, "Failed to save %q, reason %w.", identityfile, err)
 		err = conda.LegacyEnvironment(force, identityfile)
 		fail.On(err != nil, "Failed to create environment, reason %w.", err)
