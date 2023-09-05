@@ -111,9 +111,11 @@ func FindPython(location string) (string, bool) {
 func injectNetworkEnvironment(environment []string) []string {
 	if settings.Global.NoRevocation() {
 		environment = append(environment, "MAMBA_SSL_NO_REVOKE=true")
+		environment = append(environment, "ROBOCORP_SSL_REVOKE=false")
 	}
 	if !settings.Global.VerifySsl() {
 		environment = append(environment, "MAMBA_SSL_VERIFY=false")
+		environment = append(environment, "ROBOCORP_SSL_VERIFY=false")
 	}
 	environment = appendIfValue(environment, "https_proxy", settings.Global.HttpsProxy())
 	environment = appendIfValue(environment, "HTTPS_PROXY", settings.Global.HttpsProxy())
@@ -166,6 +168,7 @@ func CondaExecutionEnvironment(location string, inject []string, full bool) []st
 		environment = appendIfValue(environment, "PIP_CONFIG_FILE", common.PipRcFile())
 	}
 	if settings.Global.HasCaBundle() {
+		environment = appendIfValue(environment, "ROBOCORP_CA_BUNDLE", common.CaBundleFile())
 		environment = appendIfValue(environment, "REQUESTS_CA_BUNDLE", common.CaBundleFile())
 		environment = appendIfValue(environment, "CURL_CA_BUNDLE", common.CaBundleFile())
 		environment = appendIfValue(environment, "SSL_CERT_FILE", common.CaBundleFile())
