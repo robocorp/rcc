@@ -169,7 +169,6 @@ func CondaExecutionEnvironment(location string, inject []string, full bool) []st
 		environment = appendIfValue(environment, "PIP_CONFIG_FILE", common.PipRcFile())
 	}
 	if settings.Global.HasCaBundle() {
-		environment = appendIfValue(environment, "ROBOCORP_CA_BUNDLE", common.CaBundleFile())
 		environment = appendIfValue(environment, "REQUESTS_CA_BUNDLE", common.CaBundleFile())
 		environment = appendIfValue(environment, "CURL_CA_BUNDLE", common.CaBundleFile())
 		environment = appendIfValue(environment, "SSL_CERT_FILE", common.CaBundleFile())
