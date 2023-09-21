@@ -111,12 +111,12 @@ func FindPython(location string) (string, bool) {
 func injectNetworkEnvironment(environment []string) []string {
 	if settings.Global.NoRevocation() {
 		environment = append(environment, "MAMBA_SSL_NO_REVOKE=true")
-		environment = append(environment, "RC_NO_SSL_REVOKE=true")
 	}
 	if !settings.Global.VerifySsl() {
 		environment = append(environment, "MAMBA_SSL_VERIFY=false")
 		environment = append(environment, "RC_DISABLE_SSL=true")
 		environment = append(environment, "WDM_SSL_VERIFY=0")
+		environment = append(environment, "NODE_TLS_REJECT_UNAUTHORIZED=0")
 	}
 	environment = appendIfValue(environment, "https_proxy", settings.Global.HttpsProxy())
 	environment = appendIfValue(environment, "HTTPS_PROXY", settings.Global.HttpsProxy())
