@@ -4,7 +4,7 @@ RCC allows you to create, manage, and distribute Python-based self-contained aut
 
 🚀 "Repeatable, movable and isolated Python environments for your automation."
 
-Together with [robot.yaml](https://robocorp.com/docs/setup/robot-yaml-format) configuration file, `rcc` is a foundation that allows anyone to build and share automation easily.
+Together with [robot.yaml](https://robocorp.com/docs/robot-structure/robot-yaml-format) configuration file, `rcc` is a foundation that allows anyone to build and share automation easily.
 
 <p align="center">
   <img width="400" src="./docs/robocorp_stack.png">
@@ -41,7 +41,7 @@ RCC is actively maintained by [Robocorp](https://www.robocorp.com/).
 :hatching_chick: Create your own robot from templates
 > `rcc create`
 
-For detailed instructions, visit [Robocorp RCC documentation](https://robocorp.com/docs/product-manuals/robocorp-cli) to get started. To build `rcc` from this repository, see the [Setup Guide](/docs/BUILD.md)
+For detailed instructions, visit [Robocorp RCC documentation](https://robocorp.com/docs/rcc/overview) to get started. To build `rcc` from this repository, see the [Setup Guide](/docs/BUILD.md)
 
 ## Installing RCC from the command line
 
@@ -86,8 +86,6 @@ These are also visible inside RCC using the command: `rcc docs recipes`.
 ## Community and Support
 
 The Robocorp community can be found on [Developer Slack](https://robocorp-developers.slack.com), where you can ask questions, voice ideas, and share your projects.
-
-You can also use the [Robocorp Forum](https://forum.robocorp.com)
 
 ## License
 
