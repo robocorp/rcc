@@ -3,6 +3,8 @@ tasks:
     shell: python rake.py robot
 
 devTasks:
+  unitTests:
+    shell: python rake.py test
   build:
     shell: python rake.py build
   local:

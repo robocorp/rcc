@@ -20,6 +20,14 @@ Then see `tmp/output/log.html` for possible failure details.
 
 ## Some developer tasks
 
+### Unit tests
+```
+rcc run -r developer/toolkit.yaml --dev -t unitTests
+```
+
+You can also run tests running `rake` directly from your CLI, or run `go test` - when running unit tests
+outside of `rake` however, make sure `GOARCH` env variable is set to `amd64`, as some tests may rely on it. 
+
 ### Building the thing for local OS
 
 ```

@@ -1,11 +1,13 @@
 package htfs_test
 
 import (
+	"fmt"
+	"github.com/robocorp/rcc/common"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 
-	"github.com/robocorp/rcc/common"
 	"github.com/robocorp/rcc/hamlet"
 	"github.com/robocorp/rcc/htfs"
 )
@@ -35,7 +37,6 @@ func TestHTFSspecification(t *testing.T) {
 	must.Nil(err)
 	must.True(len(before) < 300)
 	wont.Equal(fs.Path, reloaded.Path)
-
 	must.Nil(reloaded.LoadFrom(filename))
 	after, err := reloaded.AsJson()
 	must.Nil(err)
@@ -43,15 +44,29 @@ func TestHTFSspecification(t *testing.T) {
 	must.Equal(fs.Path, reloaded.Path)
 }
 
+// This test case depends on runtime.GOARCH being "amd64" - this is enforced
+// when running unit tests with rake, but if the test suite is run otherwise,
+// for example directly from the IDE, GOARCH env variable needs to be set in order
+// for this test to pass.
 func TestZipLibrary(t *testing.T) {
 	must, wont := hamlet.Specifications(t)
 
-	must.Equal("linux_amd64", common.Platform())
+	platform := common.Platform()
+	var zipFileName string
+
+	switch {
+	case strings.Contains(platform, "linux"):
+		zipFileName = "simple_linux.zip"
+	case strings.Contains(platform, "darwin"):
+		zipFileName = "simple_darwin.zip"
+	case strings.Contains(platform, "windows"):
+		zipFileName = "simple_windows.zip"
+	}
 
 	_, blueprint, err := htfs.ComposeFinalBlueprint([]string{"testdata/simple.yaml"}, "")
 	must.Nil(err)
 	wont.Nil(blueprint)
-	sut, err := htfs.ZipLibrary("testdata/simple.zip")
+	sut, err := htfs.ZipLibrary(fmt.Sprintf("testdata/%s", zipFileName))
 	must.Nil(err)
 	wont.Nil(sut)
 	must.True(sut.HasBlueprint(blueprint))

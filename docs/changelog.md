@@ -1,5 +1,9 @@
 # rcc change log
 
+## v18.1.6 (date: 21.8.2024)
+
+- unit tests suite now works properly on MacOS and Windows
+
 ## v18.1.5 (date: 7.8.2024)
 
 - developer directory tooling update

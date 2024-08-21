@@ -78,6 +78,7 @@ end
 
 desc 'Run tests.'
 task :test => [:support, :assets] do
+  ENV['GOARCH'] = 'amd64'
   sh 'go test -cover -coverprofile=tmp/cover.out ./...'
   sh 'go tool cover -func=tmp/cover.out'
 end
@@ -133,4 +134,3 @@ task :version_txt => :support do
 end
 
 task :default => :build
-
