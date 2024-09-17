@@ -36,7 +36,7 @@ var credentialsCmd = &cobra.Command{
 			operations.VerifyAccounts(forceFlag)
 		}
 		if show && !deleteCredentialsFlag {
-			operations.ListAccounts(jsonFlag)
+			operations.ListAccounts(jsonFlag, secretsFlag)
 			return
 		}
 		account = strings.TrimSpace(AccountName())
@@ -86,5 +86,6 @@ func init() {
 	credentialsCmd.Flags().BoolVarP(&defaultFlag, "default", "d", false, "Set this as the default account.")
 	credentialsCmd.Flags().BoolVarP(&jsonFlag, "json", "j", false, "Output in JSON format.")
 	credentialsCmd.Flags().BoolVarP(&verifiedFlag, "verified", "v", false, "Updates the verified timestamp, if the credentials are still active.")
-	credentialsCmd.Flags().StringVarP(&endpointUrl, "endpoint", "e", "", fmt.Sprintf("%s Control Room endpoint used with the given account (or default).", common.Product.Name()))
+	credentialsCmd.Flags().StringVarP(&endpointUrl, "endpoint", "e", "", fmt.Sprintf("%s Control Room endpoint used with the given account (or default).", common.Product.Name))
+	credentialsCmd.Flags().BoolVarP(&secretsFlag, "showSecrets", "", false, "Caution: When used with --json this exposes the credential secret for clients that need them.")
 }

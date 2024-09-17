@@ -10,6 +10,7 @@ var (
 	dryFlag        bool
 	productionFlag bool
 	verifiedFlag   bool
+	secretsFlag    bool
 )
 
 // options

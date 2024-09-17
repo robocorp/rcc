@@ -1,5 +1,10 @@
 # rcc change log
 
+## v18.1.7 (date: 17.9.2024) WORK IN PROGRESS
+
+- Added `--showSecrets` flag that work in conjuction with `rcc configuration credentials --json` to enable applications using RCC to get the Control Room credential
+  - As the help comment says this should be used only when the credentials are actually needed to avoid accidentally logging them etc.  
+
 ## v18.1.6 (date: 21.8.2024)
 
 - unit tests suite now works properly on MacOS and Windows

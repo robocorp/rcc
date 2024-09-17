@@ -185,8 +185,14 @@ func smudgeSecrets(accounts accountList) accountList {
 	return accounts
 }
 
-func ListAccounts(json bool) {
-	accounts := smudgeSecrets(findAccounts())
+func ListAccounts(json bool, secrets bool) {
+	accounts := findAccounts()
+
+	// Smudge secrets by default, unless explicitly requested otherwise
+	if !(json && secrets) {
+		accounts = smudgeSecrets(accounts)
+	}
+
 	if json {
 		listAccountsAsJson(accounts)
 	} else {
