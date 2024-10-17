@@ -1,25 +1,25 @@
 tasks:
   robot:
-    shell: python rake.py robot
+    shell: python call_invoke.py robot
 
 devTasks:
   unitTests:
-    shell: python rake.py test
+    shell: python call_invoke.py test
   build:
-    shell: python rake.py build
+    shell: python call_invoke.py build
   local:
-    shell: python rake.py local
+    shell: python call_invoke.py local
   tools:
-    shell: python rake.py tooling
+    shell: python call_invoke.py tooling
   toc:
-    shell: python rake.py toc
+    shell: python call_invoke.py toc
 
 environmentConfigs:
-- setup.yaml
+  - setup.yaml
 
 artifactsDir: tmp
 
 PATH:
 PYTHONPATH:
 ignoreFiles:
-- .gitignore
+  - .gitignore

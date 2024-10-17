@@ -1,9 +1,12 @@
 channels:
-- conda-forge
+  - conda-forge
 dependencies:
-- python=3.12.4
-- ruby=3.3.3
-- robotframework=6.1.1
-- go=1.20.7
-- git=2.46.0
-- sed=4.7
+  # Note: needs to match the version in the GitHub Actions workflow
+  # (both rcc and rcc-pipeline)
+  - python=3.10.15
+  - invoke=2.2.0
+  # Note: needs to match the version in robot_requirements.txt
+  # Also in rcc-pipeline
+  - robotframework=6.1.1
+  - go=1.20.7
+  - git=2.46.0

@@ -5,9 +5,8 @@
 Required tools are:
 
 - golang for implementing the thing
-- rake for automating building the thing
+- invoke for automating building the thing
 - robot for testing the thing
-- zip to build template zipfiles
 
 See also: developer/README.md and developer/setup.yaml
 
@@ -17,10 +16,10 @@ Internal requirements:
 
 ## Commands
 
-- to see available tasks, use `rake -T`
-- to build everything, use `rake build` command
-- to run robot tests, use `rake robot` command
-- note, that most of rake commands are build to be used in Github Actions
+- to see available tasks, use `inv -l`
+- to build everything, use `inv build` command
+- to run robot tests, use `inv robot` command
+- note, that most of invoke commands are built to be used in Github Actions
 
 ## Where to start reading code?
 

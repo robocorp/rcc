@@ -7,9 +7,6 @@ installed somewhere available in PATH.
 This developer toolkit uses both `tasks:` and `devTasks:` to enable tools.
 Pay attention for `--dev` flag usage.
 
-And `WARNING` ... this only works currently on Linux and Mac. Windows is
-missing some tools (sed and zip at least) that are needed in development cycle.
-
 ## One task to test the thing with robot
 
 ```
@@ -21,12 +18,13 @@ Then see `tmp/output/log.html` for possible failure details.
 ## Some developer tasks
 
 ### Unit tests
+
 ```
 rcc run -r developer/toolkit.yaml --dev -t unitTests
 ```
 
-You can also run tests running `rake` directly from your CLI, or run `go test` - when running unit tests
-outside of `rake` however, make sure `GOARCH` env variable is set to `amd64`, as some tests may rely on it. 
+You can also run tests running `invoke` directly from your CLI, or run `go test` - when running unit tests
+outside of `invoke` however, make sure `GOARCH` env variable is set to `amd64`, as some tests may rely on it.
 
 ### Building the thing for local OS
 

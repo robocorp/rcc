@@ -2,11 +2,12 @@ package htfs_test
 
 import (
 	"fmt"
-	"github.com/robocorp/rcc/common"
 	"os"
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/robocorp/rcc/common"
 
 	"github.com/robocorp/rcc/hamlet"
 	"github.com/robocorp/rcc/htfs"
@@ -45,7 +46,7 @@ func TestHTFSspecification(t *testing.T) {
 }
 
 // This test case depends on runtime.GOARCH being "amd64" - this is enforced
-// when running unit tests with rake, but if the test suite is run otherwise,
+// when running unit tests with invoke, but if the test suite is run otherwise,
 // for example directly from the IDE, GOARCH env variable needs to be set in order
 // for this test to pass.
 func TestZipLibrary(t *testing.T) {

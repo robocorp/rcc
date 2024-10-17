@@ -1,5 +1,12 @@
 # rcc change log
 
+## v18.1.7 (date: 17.10.2024)
+
+- adding support for windows development of rcc
+- using python/invoke instead of ruby/rake for building rcc
+- code formatting python code with ruff
+- also using windows runner for tests in github actions
+
 ## v18.1.6 (date: 21.8.2024)
 
 - unit tests suite now works properly on MacOS and Windows
@@ -1215,7 +1222,7 @@
 
 - fix: using wrong file for age calculation on holotree catalogs
 - fix: holotree check failed to recover on corrupted files; now failure
-       leads to removal of broken file
+  leads to removal of broken file
 - fix: empty hololib directories are now removed on holotree check
 
 ## v11.22.0 (date: 31.8.2022)
@@ -1705,7 +1712,7 @@ visible changes in rcc commands used. Here is a summary of those changes.
   holotree blueprint hash.
 - Old `rcc env plan` was renamed to `rcc holotree plan` and changed to show
   plan from given holotree space.
-- Old `rcc env cleanup` was renamed to `rcc configuration cleanup`  and
+- Old `rcc env cleanup` was renamed to `rcc configuration cleanup` and
   changed to work in a way that only holotree things are valid from now on.
   This means that if you are using `rcc conf cleanup`, check help for changed
   flags also.
@@ -1866,7 +1873,7 @@ visible changes in rcc commands used. Here is a summary of those changes.
 
 - when environment creation is serialized, after short delay, rcc reports
   that it is waiting to be able to contiue
-- added __MACOSX as ignored files/directories
+- added \_\_MACOSX as ignored files/directories
 
 ## v10.6.0 (date: 16.8.2021)
 
@@ -2521,6 +2528,7 @@ visible changes in rcc commands used. Here is a summary of those changes.
   an error)
 
 ## v8.0.12 (date: 18.1.2021)
+
 - Templates conda -channel ordering reverted pending conda-forge chagnes.
 
 ## v8.0.10 (date: 18.1.2021)
