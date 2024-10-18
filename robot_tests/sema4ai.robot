@@ -80,6 +80,7 @@ Goal: Create devenv package.yaml environment using uv
 
 Goal: Create venv with devdeps package.yaml environment using uv
     Create Directory    tmp/venv-test
+    Remove Directory    tmp/venv-test    True
 
     ${cwd} =    Evaluate    os.path.abspath('tmp/venv-test')    modules=os
     ${package_yaml} =    Evaluate    os.path.abspath('robot_tests/bare_action/package.yaml')    modules=os
@@ -97,6 +98,8 @@ Goal: Create venv with devdeps package.yaml environment using uv
     ELSE
         Run and return code output error    ${cwd}/venv/bin/python3 -m pytest --version    check=${True}
     END
+
+    Remove Directory    tmp/venv-test    True
 
 
 *** Keywords ***
