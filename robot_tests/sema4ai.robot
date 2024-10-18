@@ -82,6 +82,7 @@ Goal: Create venv with devdeps package.yaml environment using uv
     Create Directory    tmp/venv-test
 
     ${cwd} =    Evaluate    os.path.abspath('tmp/venv-test')    modules=os
+    ${package_yaml} =    Evaluate    os.path.abspath('robot_tests/bare_action/package.yaml')    modules=os
     IF    sys.platform == 'win32'
         ${RCC} =    Evaluate    os.path.abspath('build/rcc.exe')    modules=os
     ELSE
@@ -89,12 +90,12 @@ Goal: Create venv with devdeps package.yaml environment using uv
     END
 
     Step
-    ...    ${RCC} --sema4ai ht venv --devdeps --controller citests robot_tests/bare_action/package.yaml
+    ...    ${RCC} --sema4ai ht venv --devdeps --controller citests ${package_yaml}
     ...    cwd=${cwd}
     IF    sys.platform == 'win32'
-        Run and return code output error    ${cwd}/Scripts/python.exe -m pytest --version
+        Run and return code output error    ${cwd}/venv/Scripts/python.exe -m pytest --version    check=${True}
     ELSE
-        Run and return code output error    ${cwd}/bin/python3 -m pytest --version
+        Run and return code output error    ${cwd}/venv/bin/python3 -m pytest --version    check=${True}
     END
 
 

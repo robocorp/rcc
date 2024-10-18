@@ -57,7 +57,10 @@ def capture_flat_output(command):
 
 
 def run_and_return_code_output_error(
-    command, env: dict[str, str] | None = None, cwd: str | None = None
+    command,
+    env: dict[str, str] | None = None,
+    cwd: str | None = None,
+    check: bool = False,
 ) -> tuple[int, str, str]:
     command = fix_command(command)
     cwd = get_cwd() if cwd is None else cwd
@@ -72,6 +75,10 @@ def run_and_return_code_output_error(
         env=env,
     )
     out, err = task.communicate()
+    if check:
+        assert (
+            task.returncode == 0
+        ), f"Unexpected exit code {task.returncode} from {command!r}"
     return task.returncode, out.decode(), err.decode()
 
 
