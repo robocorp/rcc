@@ -84,7 +84,7 @@ func NewEnvironment(condafile, holozip string, restore, force bool, puller Catal
 	fail.On(err != nil, "Could not get lock for holotree. Quiting.")
 	defer locker.Release()
 
-	_, holotreeBlueprint, err := ComposeFinalBlueprint([]string{condafile}, "")
+	_, holotreeBlueprint, err := ComposeFinalBlueprint([]string{condafile}, "", false)
 	fail.Fast(err)
 
 	common.EnvironmentHash, common.FreshlyBuildEnvironment = common.BlueprintHash(holotreeBlueprint), false
@@ -212,7 +212,7 @@ func RecordEnvironment(tree MutableLibrary, blueprint []byte, force bool, scorec
 }
 
 func RestoreLayersTo(tree MutableLibrary, identityfile string, targetDir string) conda.SkipLayer {
-	config, err := conda.ReadPackageCondaYaml(identityfile)
+	config, err := conda.ReadPackageCondaYaml(identityfile, false)
 	if err != nil {
 		return conda.SkipNoLayers
 	}
@@ -252,7 +252,7 @@ func RobotBlueprints(userBlueprints []string, packfile string) (robot.Robot, []s
 	return config, append(blueprints, userBlueprints...)
 }
 
-func ComposeFinalBlueprint(userFiles []string, packfile string) (config robot.Robot, blueprint []byte, err error) {
+func ComposeFinalBlueprint(userFiles []string, packfile string, devDependencies bool) (config robot.Robot, blueprint []byte, err error) {
 	defer fail.Around(&err)
 
 	var left, right *conda.Environment
@@ -261,7 +261,7 @@ func ComposeFinalBlueprint(userFiles []string, packfile string) (config robot.Ro
 
 	for _, filename := range filenames {
 		left = right
-		right, err = conda.ReadPackageCondaYaml(filename)
+		right, err = conda.ReadPackageCondaYaml(filename, devDependencies)
 		fail.On(err != nil, "Failure: %v", err)
 		if left == nil {
 			continue
