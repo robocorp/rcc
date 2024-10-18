@@ -68,7 +68,8 @@ func (it *unmanaged) resolve(blueprint []byte) error {
 		return nil
 	}
 	identityfile := filepath.Join(path, "identity.yaml")
-	_, identity, err := ComposeFinalBlueprint([]string{identityfile}, "")
+	devDependencies := common.DevDependencies
+	_, identity, err := ComposeFinalBlueprint([]string{identityfile}, "", devDependencies)
 	if err != nil {
 		return nil
 	}

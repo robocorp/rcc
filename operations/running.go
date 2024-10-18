@@ -102,7 +102,7 @@ func FreezeEnvironmentListing(label string, config robot.Robot) {
 		common.Log("No dependencies found at %q", goldenfile)
 		return
 	}
-	env, err := conda.ReadPackageCondaYaml(config.CondaConfigFile())
+	env, err := conda.ReadPackageCondaYaml(config.CondaConfigFile(), false)
 	if err != nil {
 		common.Log("Could not read %q, reason: %v", config.CondaConfigFile(), err)
 		return

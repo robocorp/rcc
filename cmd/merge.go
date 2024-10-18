@@ -27,7 +27,7 @@ var mergeCmd = &cobra.Command{
 
 		for _, filename := range args {
 			left = right
-			right, err = conda.ReadPackageCondaYaml(filename)
+			right, err = conda.ReadPackageCondaYaml(filename, false)
 			if err != nil {
 				pretty.Exit(1, err.Error())
 			}

@@ -22,7 +22,8 @@ var holotreePullCmd = &cobra.Command{
 		if common.DebugFlag() {
 			defer common.Stopwatch("Holotree pull command lasted").Report()
 		}
-		_, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(nil, pullRobot)
+		devDependencies := false
+		_, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(nil, pullRobot, devDependencies)
 		pretty.Guard(err == nil, 1, "Blueprint calculation failed: %v", err)
 		hash := common.BlueprintHash(holotreeBlueprint)
 		tree, err := htfs.New()

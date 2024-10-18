@@ -470,7 +470,7 @@ func LogUnifiedEnvironment(content []byte) {
 }
 
 func finalUnifiedEnvironment(filename string) (string, *Environment, error) {
-	right, err := ReadPackageCondaYaml(filename)
+	right, err := ReadPackageCondaYaml(filename, false)
 	if err != nil {
 		return "", nil, err
 	}

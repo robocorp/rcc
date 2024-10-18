@@ -66,5 +66,5 @@ func init() {
 	runCmd.Flags().BoolVarP(&interactiveFlag, "interactive", "", false, "Allow robot to be interactive in terminal/command prompt. For development only, not for production!")
 	runCmd.Flags().StringVarP(&common.HolotreeSpace, "space", "s", "user", "Client specific name to identify this environment.")
 	runCmd.Flags().BoolVarP(&common.NoOutputCapture, "no-outputs", "", false, "Do not capture stderr/stdout into files.")
-	runCmd.Flags().BoolVarP(&common.DeveloperFlag, "dev", "", false, "Use devTasks instead of normal tasks. For development work only. Stragegy selection.")
+	runCmd.Flags().BoolVarP(&common.DeveloperFlag, "dev", "", false, "Use devTasks instead of normal tasks. For development work only. Strategy selection.")
 }

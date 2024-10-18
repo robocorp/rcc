@@ -115,7 +115,7 @@ var holotreePrebuildCmd = &cobra.Command{
 		success := make([]string, 0, total)
 		exporting := len(exportFile) > 0
 		for at, configfile := range configurations {
-			environment, err := conda.ReadPackageCondaYaml(configfile)
+			environment, err := conda.ReadPackageCondaYaml(configfile, false)
 			if err != nil {
 				pretty.Warning("%d/%d: Failed to load %q, reason: %v (ignored)", at+1, total, configfile, err)
 				continue

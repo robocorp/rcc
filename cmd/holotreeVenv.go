@@ -64,7 +64,7 @@ var holotreeVenvCmd = &cobra.Command{
 			deleteByExactIdentity(identity)
 		}
 
-		env := holotreeExpandEnvironment(args, "", "", "", 0, holotreeForce)
+		env := holotreeExpandEnvironment(args, "", "", "", 0, holotreeForce, common.DeveloperFlag)
 		envPath := pathlib.EnvironmentPath(env)
 		python, ok := envPath.Which("python", conda.FileExtensions)
 		if !ok {
@@ -113,4 +113,5 @@ func init() {
 
 	holotreeVenvCmd.Flags().StringVarP(&common.HolotreeSpace, "space", "s", "user", "Client specific name to identify this environment.")
 	holotreeVenvCmd.Flags().BoolVarP(&holotreeForce, "force", "f", false, "Force environment creation by deleting unmanaged space. Dangerous, do not use unless you understand what it means.")
+	holotreeVenvCmd.Flags().BoolVarP(&common.DevDependencies, "devdeps", "", false, "Include dev-dependencies from the `package.yaml` file in the environment (only valid when dealing with a `package.yaml` file).")
 }

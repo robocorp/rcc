@@ -28,7 +28,7 @@ func updateEnvironments(robots []string) {
 		err = operations.InitializeWorkarea(workarea, template, false, forceFlag)
 		pretty.Guard(err == nil, 2, "Could not create robot %q, reason: %v", template, err)
 		targetRobot := robot.DetectConfigurationName(workarea)
-		_, blueprint, err := htfs.ComposeFinalBlueprint([]string{}, targetRobot)
+		_, blueprint, err := htfs.ComposeFinalBlueprint([]string{}, targetRobot, false)
 		if tree.HasBlueprint(blueprint) {
 			continue
 		}

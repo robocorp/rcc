@@ -161,9 +161,9 @@ func remove(index int, target []*Dependency) []*Dependency {
 	return append(target[:index], target[index+1:]...)
 }
 
-func SummonEnvironment(filename string) *Environment {
+func SummonEnvironment(filename string, devDependencies bool) *Environment {
 	if pathlib.IsFile(filename) {
-		result, err := ReadPackageCondaYaml(filename)
+		result, err := ReadPackageCondaYaml(filename, devDependencies)
 		if err == nil {
 			return result
 		}

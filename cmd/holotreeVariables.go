@@ -66,13 +66,13 @@ func asExportedText(items []string) {
 	}
 }
 
-func holotreeExpandEnvironment(userFiles []string, packfile, environment, workspace string, validity int, force bool) []string {
+func holotreeExpandEnvironment(userFiles []string, packfile, environment, workspace string, validity int, force bool, devDependencies bool) []string {
 	var extra []string
 	var data operations.Token
 	common.TimelineBegin("environment expansion start")
 	defer common.TimelineEnd()
 
-	config, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(userFiles, packfile)
+	config, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(userFiles, packfile, devDependencies)
 	pretty.Guard(err == nil, 5, "%s", err)
 
 	condafile := filepath.Join(common.ProductTemp(), common.BlueprintHash(holotreeBlueprint))
@@ -83,6 +83,9 @@ func holotreeExpandEnvironment(userFiles []string, packfile, environment, worksp
 	if config != nil {
 		holozip = config.Holozip()
 	}
+
+	// i.e.: the conda file is now already created in the temp folder, so, there's no need to use the devDependencies flag
+	// anymore.
 	path, _, err := htfs.NewEnvironment(condafile, holozip, true, force, operations.PullCatalog)
 	if !common.WarrantyVoided() {
 		pretty.RccPointOfView(newEnvironment, err)
@@ -157,7 +160,7 @@ var holotreeVariablesCmd = &cobra.Command{
 			defer common.Stopwatch("Holotree variables command lasted").Report()
 		}
 
-		env := holotreeExpandEnvironment(args, robotFile, environmentFile, workspaceId, validityTime, holotreeForce)
+		env := holotreeExpandEnvironment(args, robotFile, environmentFile, workspaceId, validityTime, holotreeForce, common.DevDependencies)
 		if holotreeJson {
 			asJson(env)
 		} else {
@@ -178,4 +181,5 @@ func init() {
 	holotreeVariablesCmd.Flags().StringVarP(&common.HolotreeSpace, "space", "s", "user", "Client specific name to identify this environment.")
 	holotreeVariablesCmd.Flags().BoolVarP(&holotreeForce, "force", "f", false, "Force environment creation with refresh.")
 	holotreeVariablesCmd.Flags().BoolVarP(&holotreeJson, "json", "j", false, "Show environment as JSON.")
+	holotreeVariablesCmd.Flags().BoolVarP(&common.DevDependencies, "devdeps", "", false, "Include dev-dependencies from the `package.yaml` file in the environment (only valid when dealing with a `package.yaml` file).")
 }

@@ -209,7 +209,7 @@ func (it *robot) Diagnostics(target *common.DiagnosticStatus, production bool) {
 		target.Details["cacheable-environment-configuration"] = "false"
 	} else {
 		diagnose.Ok(0, "In robot.yaml, environment configuration %q is present. So this is python robot.", effectiveConfig)
-		condaEnv, err := conda.ReadPackageCondaYaml(effectiveConfig)
+		condaEnv, err := conda.ReadPackageCondaYaml(effectiveConfig, false)
 		if err != nil {
 			diagnose.Fail(0, "", "From robot.yaml, loading conda.yaml failed with: %v", err)
 		} else {
@@ -277,7 +277,7 @@ func (it *robot) VerifyCondaDependencies() bool {
 	if len(dependencies) == 0 {
 		return true
 	}
-	condaEnv, err := conda.ReadPackageCondaYaml(it.CondaConfigFile())
+	condaEnv, err := conda.ReadPackageCondaYaml(it.CondaConfigFile(), false)
 	if err != nil {
 		return true
 	}

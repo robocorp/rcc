@@ -13,7 +13,8 @@ import (
 func holotreeExpandBlueprint(userFiles []string, packfile string) map[string]interface{} {
 	result := make(map[string]interface{})
 
-	_, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(userFiles, packfile)
+    devDependencies := false
+	_, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(userFiles, packfile, devDependencies)
 	pretty.Guard(err == nil, 5, "%s", err)
 
 	common.Debug("FINAL blueprint:\n%s", string(holotreeBlueprint))

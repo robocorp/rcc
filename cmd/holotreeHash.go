@@ -17,7 +17,8 @@ var holotreeHashCmd = &cobra.Command{
 		if common.DebugFlag() {
 			defer common.Stopwatch("Conda YAML hash calculation lasted").Report()
 		}
-		_, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(args, "")
+		devDependencies := false
+		_, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(args, "", devDependencies)
 		pretty.Guard(err == nil, 1, "Blueprint calculation failed: %v", err)
 		hash := common.BlueprintHash(holotreeBlueprint)
 		common.Log("Blueprint hash for %v is %v.", args, hash)

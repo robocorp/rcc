@@ -43,6 +43,7 @@ var (
 	NoTempManagement        bool
 	NoPycManagement         bool
 	ExternallyManaged       bool
+	DevDependencies         bool
 	DeveloperFlag           bool
 	StrictFlag              bool
 	SharedHolotree          bool

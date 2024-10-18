@@ -64,7 +64,7 @@ func TestZipLibrary(t *testing.T) {
 		zipFileName = "simple_windows.zip"
 	}
 
-	_, blueprint, err := htfs.ComposeFinalBlueprint([]string{"testdata/simple.yaml"}, "")
+	_, blueprint, err := htfs.ComposeFinalBlueprint([]string{"testdata/simple.yaml"}, "", false)
 	must.Nil(err)
 	wont.Nil(blueprint)
 	sut, err := htfs.ZipLibrary(fmt.Sprintf("testdata/%s", zipFileName))

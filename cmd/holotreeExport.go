@@ -70,7 +70,8 @@ var holotreeExportCmd = &cobra.Command{
 			defer common.Stopwatch("Holotree export command lasted").Report()
 		}
 		if len(exportRobot) > 0 {
-			_, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(nil, exportRobot)
+			devDependencies := false
+			_, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(nil, exportRobot, devDependencies)
 			pretty.Guard(err == nil, 1, "Blueprint calculation failed: %v", err)
 			hash := common.BlueprintHash(holotreeBlueprint)
 			args = append(args, htfs.CatalogName(hash))
