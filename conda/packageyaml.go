@@ -31,11 +31,11 @@ func (it *internalPackage) AsEnvironment(devDependencies bool) *Environment {
 	}
 	seenScripts := make(map[string]bool)
 	result.PostInstall = addItem(seenScripts, it.PostInstall, result.PostInstall)
-	pushConda(result, it.condaDependencies(false))
-	pushPip(result, it.pipDependencies(false))
+	pushConda(result, it.condaDependencies(it.Dependencies))
+	pushPip(result, it.pipDependencies(it.Dependencies))
 	if devDependencies {
-		pushConda(result, it.condaDependencies(true))
-		pushPip(result, it.pipDependencies(true))
+		pushConda(result, it.condaDependencies(it.DevDependencies))
+		pushPip(result, it.pipDependencies(it.DevDependencies))
 	}
 	result.pipPromote()
 	return result
@@ -51,11 +51,7 @@ func fixPipDependency(dependency *Dependency) *Dependency {
 	return dependency
 }
 
-func (it *internalPackage) pipDependencies(dev bool) []*Dependency {
-	useDependencies := it.Dependencies
-	if dev {
-		useDependencies = it.DevDependencies
-	}
+func (it *internalPackage) pipDependencies(useDependencies *packageDependencies) []*Dependency {
 	if useDependencies != nil {
 		result := make([]*Dependency, 0, len(useDependencies.Pypi))
 		for _, item := range useDependencies.Pypi {
@@ -70,11 +66,7 @@ func (it *internalPackage) pipDependencies(dev bool) []*Dependency {
 	}
 }
 
-func (it *internalPackage) condaDependencies(dev bool) []*Dependency {
-	useDependencies := it.Dependencies
-	if dev {
-		useDependencies = it.DevDependencies
-	}
+func (it *internalPackage) condaDependencies(useDependencies *packageDependencies) []*Dependency {
 	if useDependencies != nil {
 		result := make([]*Dependency, 0, len(useDependencies.CondaForge))
 		for _, item := range useDependencies.CondaForge {
