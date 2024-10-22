@@ -50,6 +50,13 @@ Goal: Default settings.yaml for Sema4.ai
     Wont Have    branding
     Wont Have    logo
 
+Goal: Check holotree hash
+    Step    build/rcc holotree hash --silent --controller citests robot_tests/bare_action/package.yaml
+    Must Have    43139fade39b1952
+
+    Step    build/rcc holotree hash --devdeps --silent --controller citests robot_tests/bare_action/package.yaml
+    Must Have    ac2e488f48812dcf
+
 Goal: Create package.yaml environment using uv
     Step    build/rcc --sema4ai ht vars --json -s sema4ai --controller citests robot_tests/bare_action/package.yaml
     Must Have    RCC_ENVIRONMENT_HASH

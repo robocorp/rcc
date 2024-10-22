@@ -17,8 +17,7 @@ var holotreeHashCmd = &cobra.Command{
 		if common.DebugFlag() {
 			defer common.Stopwatch("Conda YAML hash calculation lasted").Report()
 		}
-		devDependencies := false
-		_, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(args, "", devDependencies)
+		_, holotreeBlueprint, err := htfs.ComposeFinalBlueprint(args, "", common.DevDependencies)
 		pretty.Guard(err == nil, 1, "Blueprint calculation failed: %v", err)
 		hash := common.BlueprintHash(holotreeBlueprint)
 		common.Log("Blueprint hash for %v is %v.", args, hash)
@@ -30,4 +29,5 @@ var holotreeHashCmd = &cobra.Command{
 
 func init() {
 	holotreeCmd.AddCommand(holotreeHashCmd)
+	holotreeHashCmd.Flags().BoolVarP(&common.DevDependencies, "devdeps", "", false, "Include dev-dependencies from the `package.yaml` when calculating the hash (only valid when dealing with a `package.yaml` file).")
 }

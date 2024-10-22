@@ -1,5 +1,9 @@
 # rcc change log
 
+## v18.3.0 (date: 22.10.2024)
+
+- support `--devenv` flag in `rcc holotree hash` to compute hash considering `dev-dependencies`.
+
 ## v18.2.0 (date: 21.10.2024)
 
 - support for a `--devenv` flag to install `dev-dependencies` in a `package.yaml`.
