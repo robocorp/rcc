@@ -68,9 +68,15 @@ jobs:
       - robot
     if: success() && github.ref == 'refs/heads/master'
     steps:
-      - name: Pipeline
-        run: |
-          curl -X POST https://api.github.com/repos/robocorp/rcc-pipeline/dispatches \
-          -H 'Accept: application/vnd.github.v3+json' \
-          -u ${{ secrets.TRIGGER_TOKEN }} \
-          --data '{"event_type": "pipes"}'
+      - name: Trigger pipeline in another repository
+        uses: actions/github-script@v6
+        with:
+          script: |
+            await github.repos.createDispatchEvent({
+              owner: 'robocorp',
+              repo: 'rcc-pipeline',
+              event_type: 'pipes',
+              headers: {
+                authorization: `token ${{ secrets.GHA_TO_OTHER_REPO }}`
+              }
+            });
