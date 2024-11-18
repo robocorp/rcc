@@ -1,5 +1,12 @@
 ![RCC](/docs/title.png)
 
+# License change notice
+
+See [LICENSE-NOTICE.md](/LICENSE-NOTICE.md) for a notice on the terms
+under which RCC is made available.
+
+# Introduction
+
 RCC allows you to create, manage, and distribute Python-based self-contained automation packages. RCC also allows you to run your automations in isolated Python environments so they can still access the rest of your machine.
 
 🚀 "Repeatable, movable and isolated Python environments for your automation."
@@ -14,7 +21,7 @@ RCC is actively maintained by [Sema4.ai](https://sema4.ai/).
 
 
 ## Why use rcc?
- 
+
 * You do not need to install Python on the target machine
 * You can control exactly which version of Python your automation will run on (..and which pip version is used to resolve dependencies)
 * You can avoid `Works on my machine`
@@ -23,13 +30,13 @@ RCC is actively maintained by [Sema4.ai](https://sema4.ai/).
 * If you have run into "dependency drifts", where once working runtime environment dependencies get updated and break your production system?, RCC can freeze ALL dependencies, pre-build environments, and more.
 * RCC will give you a heads-up if your automations have been leaving behind processes after running.
 
-...and much much more. 
+...and much much more.
 
 👉 If the command line seems scary, just pick up [Seam4.ai -extension for VS Code](https://marketplace.visualstudio.com/items?itemName=sema4ai.sema4ai) -extension for VS Code, and you'll get the power of RCC directly in VS Code without worrying about the commands.
 
 ## Getting Started
 
-:arrow_double_down: Install rcc 
+:arrow_double_down: Install rcc
 > [Installation guide](https://github.com/robocorp/rcc?tab=readme-ov-file#installing-rcc-from-the-command-line)
 
 :octocat: Pull robot from GitHub:
@@ -41,7 +48,7 @@ RCC is actively maintained by [Sema4.ai](https://sema4.ai/).
 :hatching_chick: Create your own robot from templates
 > `rcc create`
 
-For detailed instructions, visit [Robocorp RCC documentation](https://sema4.ai/docs/automation/rcc/overview) to get started. 
+For detailed instructions, visit [Robocorp RCC documentation](https://sema4.ai/docs/automation/rcc/overview) to get started.
 
 ## Installing RCC from the command line
 
